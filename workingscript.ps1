@@ -31,3 +31,60 @@ function Test-OctopusLogin {
     }
     return $true
 }
+function Get-OctopusUpcomingRates {
+    param (
+        [bool]$todayonly,
+        [bool]$tomorrowonly
+    )
+    #  Clear-Variable result
+    $config = Get-Content -Path $configlocation -Raw | ConvertFrom-Json
+
+    # Validate key works
+    try {
+        Test-OctopusLogin
+    }
+    catch {
+        Write-Host "API Key appears invalid"
+        return $false
+    }
+
+    # Build URI
+    $uri = $config.api_endpoints.base + $config.api_endpoints.upcomingagilerate
+
+    # Do the stuff
+    try {
+        $result = ( Invoke-RestMethod -Uri $uri -Headers $headers )
+        $result = $result.results
+    }
+    catch {
+        Write-Error "Something failed getting rates"
+        return $false
+    }
+
+    if ( $todayonly ) {
+        # Get today's date in UTC.
+        $dt = ( Get-Date ).ToUniversalTIme()
+        $today = Get-Date -Format "yyyy-MM-dd" -Date $dt
+        $result = ( $result | Where-Object -Property valid_from -Like "*$today*" )
+    }
+
+    if ( $tomorrowonly ) {
+        if ( $config.octopus_configs.agile_reset_time_utc0 -gt ( Get-Date -Format "HH:mm" ) ) {
+            Write-Error "Tomorrow values are available as of $($config.octopus_configs.agile_reset_time_utc0), try back later"
+            return $false
+        }
+
+        # Get tomorrow's date in UTC.
+        $dt = ( Get-Date ).AddDays(1).ToUniversalTIme()
+        $tomorrow = Get-Date -Format "yyyy-MM-dd" -Date $dt
+        $result = ( $result | Where-Object -Property valid_from -Like "*$tomorrow*" )
+    }
+
+    if ( !$result ) {
+        write-host "No data returned"
+    }
+
+    #change the order and tidy up.
+
+    return $result
+}
