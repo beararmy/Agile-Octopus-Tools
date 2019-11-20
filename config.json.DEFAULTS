@@ -1,0 +1,16 @@
+{
+    "user_specific": {
+      "api_key": "sk_live_your_key_goes_here",
+      "elec_serial": "your_serial_goes_here",
+      "elec_mpan": "your_mpan_goes_here"
+    },
+    "api_endpoints": {
+      "base": "https://api.octopus.energy/v1/",
+      "products": "products/",
+      "emeter": "electricity-meter-points/",
+      "upcomingagilerate": "products/AGILE-18-02-21/electricity-tariffs/E-1R-AGILE-18-02-21-A/standard-unit-rates/"
+    },
+    "octopus_configs": {
+      "agile_reset_time_utc0": "16:00"
+    }
+  }
