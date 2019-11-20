@@ -44,7 +44,7 @@ function Get-OctopusUpcomingRates {
         Test-OctopusLogin
     }
     catch {
-        Write-Host "API Key appears invalid"
+        Write-Host "Failed to connect with specified API key"
         return $false
     }
 
@@ -57,15 +57,14 @@ function Get-OctopusUpcomingRates {
         $result = $result.results
     }
     catch {
-        Write-Error "Something failed getting rates"
+        Write-Error "Failed to get agile rates"
         return $false
     }
 
     if ( $todayonly ) {
         # Get today's date in UTC.
-        $dt = ( Get-Date ).ToUniversalTIme()
-        $today = Get-Date -Format "yyyy-MM-dd" -Date $dt
-        $result = ( $result | Where-Object -Property valid_from -Like "*$today*" )
+        $today = ( Get-Date -Hour 0 -Minute 00 -Second 00 ).ToUniversalTime()
+        $result = ( $result | Where-Object -Property valid_from -gt $today )
     }
 
     if ( $tomorrowonly ) {
@@ -75,9 +74,8 @@ function Get-OctopusUpcomingRates {
         }
 
         # Get tomorrow's date in UTC.
-        $dt = ( Get-Date ).AddDays(1).ToUniversalTIme()
-        $tomorrow = Get-Date -Format "yyyy-MM-dd" -Date $dt
-        $result = ( $result | Where-Object -Property valid_from -Like "*$tomorrow*" )
+        $tomorrow = ( Get-Date -Hour 0 -Minute 00 -Second 00 ).AddDays(1).ToUniversalTime()
+        $result = ( $result | Where-Object -Property valid_from -gt $tomorrow )
     }
 
     if ( !$result ) {
