@@ -87,3 +87,18 @@ function InsertRecentUsage($pricesArray)
     }
     $conn->close();
 }
+function GetCurrentRate()
+{
+    require './secrets.php'; # DB Credentials
+    date_default_timezone_set('UTC');
+    $datetime = date("Y-m-d H:m:s");
+    $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
+    $sql = "SELECT value_inc_vat FROM $db_tablename_9834 WHERE valid_from <= '$datetime' AND valid_to >= '$datetime' LIMIT 1;";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "Current cost per kWh<br><br>" . $row["value_inc_vat"];
+        }
+    }
+    $conn->close();
+}
