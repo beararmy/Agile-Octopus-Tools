@@ -41,3 +41,29 @@ function TestMySQLLogin()
         return $status_octopus;
     }
 }
+function GetUsage($api_key)
+{
+    $api_key = $api_key . ":";
+    $url = "https://api.octopus.energy/v1/electricity-meter-points/1012953229244/meters/18P0906658/consumption/";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_USERPWD, "$api_key");
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = curl_exec($ch);
+    $json = json_decode($result, true);
+    return $json;
+}
+function GetUpcomingPrices($api_key)
+{
+    $api_key = $api_key . ":";
+    $url = "https://api.octopus.energy/v1/products/AGILE-18-02-21/electricity-tariffs/E-1R-AGILE-18-02-21-A/standard-unit-rates/";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_USERPWD, $api_key);
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = curl_exec($ch);
+    $json = json_decode($result, true);
+    return $json;
+}
