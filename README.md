@@ -12,8 +12,8 @@ To-do
 - [ ] most expensive few hours today/tomorrow
 - [ ] cheapest few hours today/tomorrow
 - [ ] current price
-- [ ] drop prices into mysql db
-- [ ] drop past consumption into mysql db
+- [x] drop prices into mysql db
+- [x] drop past consumption into mysql db
 - [ ] Make it an Azure Function
 - [ ] Email alerts for following day 'avoid at x, use lots at y'
 - [ ] Other as yet considered features

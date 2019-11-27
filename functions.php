@@ -1,5 +1,5 @@
 <?php
-require './secrets.php'; # DB Credentials and Spotify API creds
+require './secrets.php';
 
 function TestOctopusLogin($api_key, $call_url)
 {
@@ -9,13 +9,13 @@ function TestOctopusLogin($api_key, $call_url)
         $response = curl_exec($handle);
         $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
         if ($httpCode != 200) {
-            throw new Exception("Got a non-200 response");
+            throw new Exception("Octopus API Failed at GET, non-200 response");
         }
         curl_close($handle);
         $status_octopus = "true";
     } catch (\Throwable $th) {
         $status_octopus = "false";
-        throw new Exception("API Connection Failed");
+        throw new Exception("Octopus API Failed");
     } finally {
         return $status_octopus;
     }
@@ -23,7 +23,7 @@ function TestOctopusLogin($api_key, $call_url)
 function TestMySQLLogin()
 {
     try {
-        require './secrets.php'; # DB Credentials and Spotify API creds
+        require './secrets.php';
         $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
         $sql = "SELECT * from $db_tablename_9834 LIMIT 1;";
         $result = $conn->query($sql);
@@ -69,7 +69,7 @@ function GetUpcomingPrices($api_key)
 }
 function InsertUpcomingPrices($pricesArray)
 {
-    require './secrets.php'; # DB Credentials
+    require './secrets.php';
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     foreach ($pricesArray['results'] as $row => $innerArray) {
         $sql = "INSERT INTO $db_tablename_9834 (valid_from, valid_to, value_exc_vat, value_inc_vat ) SELECT '$innerArray[valid_from]', '$innerArray[valid_to]','$innerArray[value_exc_vat]','$innerArray[value_inc_vat]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9834 WHERE valid_from='$innerArray[valid_from]' AND valid_to='$innerArray[valid_to]' LIMIT 1);";
@@ -79,7 +79,7 @@ function InsertUpcomingPrices($pricesArray)
 }
 function InsertRecentUsage($pricesArray)
 {
-    require './secrets.php'; # DB Credentials
+    require './secrets.php';
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     foreach ($pricesArray['results'] as $row => $innerArray) {
         $sql = "INSERT INTO $db_tablename_9833 (interval_start, interval_end, consumption) SELECT '$innerArray[interval_start]', '$innerArray[interval_end]','$innerArray[consumption]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9833 WHERE interval_start='$innerArray[interval_start]' AND interval_end='$innerArray[interval_end]' LIMIT 1);";
