@@ -67,3 +67,23 @@ function GetUpcomingPrices($api_key)
     $json = json_decode($result, true);
     return $json;
 }
+function InsertUpcomingPrices($pricesArray)
+{
+    require './secrets.php'; # DB Credentials
+    $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
+    foreach ($pricesArray['results'] as $row => $innerArray) {
+        $sql = "INSERT INTO $db_tablename_9834 (valid_from, valid_to, value_exc_vat, value_inc_vat ) SELECT '$innerArray[valid_from]', '$innerArray[valid_to]','$innerArray[value_exc_vat]','$innerArray[value_inc_vat]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9834 WHERE valid_from='$innerArray[valid_from]' AND valid_to='$innerArray[valid_to]' LIMIT 1);";
+        $result = $conn->query($sql);
+    }
+    $conn->close();
+}
+function InsertRecentUsage($pricesArray)
+{
+    require './secrets.php'; # DB Credentials
+    $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
+    foreach ($pricesArray['results'] as $row => $innerArray) {
+        $sql = "INSERT INTO $db_tablename_9833 (interval_start, interval_end, consumption) SELECT '$innerArray[interval_start]', '$innerArray[interval_end]','$innerArray[consumption]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9833 WHERE interval_start='$innerArray[interval_start]' AND interval_end='$innerArray[interval_end]' LIMIT 1);";
+        $result = $conn->query($sql);
+    }
+    $conn->close();
+}
