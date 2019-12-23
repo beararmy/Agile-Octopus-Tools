@@ -71,6 +71,16 @@ function GetUpcomingPrices($api_key)
     $json = json_decode($result, true);
     return $json;
 }
+function GetStandingCharge($tariff_code)
+{
+    $url = "https://api.octopus.energy/v1/products/AGILE-18-02-21/electricity-tariffs/$tariff_code/standing-charges/";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    $result = curl_exec($ch);
+    $json = json_decode($result, true);
+    return $json['results'][0];
+}
 function InsertUpcomingPrices($pricesArray)
 {
     require './secrets.php';
