@@ -45,9 +45,20 @@ if (isset($_GET['automated'])) {
         throw $th;
     }
 } else {
-    echo "Running interactively, some stuff goes here, maybe?<br><br>";
     $call_url = $base . $emeter . $elec_mpan . "/";
     $status_octopus = TestOctopusLogin($api_key, $call_url);
     $status_mysql = TestMySQLLogin();
-    echo "I checked connections. Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
+    echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
 }
+
+#http://bike.bear.army/azure-function/functions.php?automated=yes
+
+#print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");
+
+echo "<h3> The current rate is:</h3>";
+echo GetCurrentRate()['current_rate_per_kWh'];
+
+
+
+echo "<h3> The highest 5 rates today are:</h3>";
+GetHighestRate("3");
