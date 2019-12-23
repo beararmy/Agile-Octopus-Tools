@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require './secrets.php';
 
 function TestOctopusLogin($api_key, $call_url)
@@ -9,13 +13,13 @@ function TestOctopusLogin($api_key, $call_url)
         $response = curl_exec($handle);
         $httpCode = curl_getinfo($handle, CURLINFO_HTTP_CODE);
         if ($httpCode != 200) {
-            throw new Exception("Octopus API Failed at GET, non-200 response");
+            throw new Exception("Got a non-200 response");
         }
         curl_close($handle);
         $status_octopus = "true";
     } catch (\Throwable $th) {
         $status_octopus = "false";
-        throw new Exception("Octopus API Failed");
+        throw new Exception("API Connection Failed");
     } finally {
         return $status_octopus;
     }
@@ -97,8 +101,42 @@ function GetCurrentRate()
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            echo "Current cost per kWh<br><br>" . $row["value_inc_vat"];
+           $value_inc_vat = $row["value_inc_vat"];
         }
     }
     $conn->close();
+    return array('current_rate_per_kWh' => $value_inc_vat);
 }
+function GetHighestRate($howmany)
+{
+    $i = 0;
+    if (!isset($howmany)) {
+        $howmany = 5;
+    }
+    require './secrets.php'; # DB Credentials
+    date_default_timezone_set('UTC');
+    $start_date = date("Y-m-d");
+    $end_date = new DateTime('+1 day');
+    $end_date = $end_date->format('Y-m-d');
+    $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
+    $sql = "SELECT valid_from, valid_to, value_inc_vat FROM $db_tablename_9834 WHERE valid_from > '$start_date' AND valid_to < '$end_date' ORDER BY value_inc_vat DESC LIMIT $howmany;";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        print("<pre>" . print_r($result->   fetch_assoc(), true) . "</pre>");
+
+        while ($row = $result->fetch_assoc()) {
+
+            echo "<br>" . $row["value_inc_vat"];
+            echo "<br>" . $row["valid_from"];
+            echo "<br>" . $row["valid_to"];
+            $i++;
+            
+            print("<pre>" . print_r($row, true) . "</pre>");
+
+        }
+}
+    $conn->close();
+   # return array('current_rate_per_kWh' => $value_inc_vat);
+
+   }
+   
