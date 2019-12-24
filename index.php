@@ -41,6 +41,11 @@ if (isset($_GET['automated'])) {
         # Update the most recent usage stats
         $pricesArray = GetUsage($api_key);
         InsertRecentUsage($pricesArray);
+
+        # Update the standing charges for the day
+        $date = date("Y-m-d");
+        $pricesArray = GetStandingCharge($tariff_code);
+        InsertStandingCharge($pricesArray, $date);
     } catch (\Throwable $th) {
         throw $th;
     }
