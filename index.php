@@ -51,6 +51,12 @@ if (isset($_GET['automated'])) {
     echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
 }
 
+echo "<h2>testing</h2>";
+
+print("<pre>" . print_r(GetStandingCharge($tariff_code), true) . "</pre>");
+
+#echo GetUpcomingPrices($api_key);
+
 #http://bike.bear.army/azure-function/functions.php?automated=yes
 
 #print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");

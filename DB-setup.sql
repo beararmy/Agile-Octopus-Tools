@@ -18,3 +18,10 @@ CREATE TABLE `ElectricConsumption` (
         `consumption` DECIMAL(5,3) NOT NULL COMMENT 'kWh',
         PRIMARY KEY (`entry_id`)
 );
+CREATE TABLE `StandingCharges` (
+        `entry_id` INT NOT NULL AUTO_INCREMENT,
+        `date` DATE NOT NULL,
+        `value_exc_vat` DECIMAL(7,4) NOT NULL COMMENT 'GBp',
+        `value_inc_vat` DECIMAL(7,4) NOT NULL COMMENT 'GBp',
+        PRIMARY KEY (`entry_id`)
+);

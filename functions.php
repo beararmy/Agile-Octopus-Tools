@@ -101,6 +101,14 @@ function InsertRecentUsage($pricesArray)
     }
     $conn->close();
 }
+function InsertStandingCharge($pricesArray, $date)
+{
+    require './secrets.php';
+    $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
+    $sql = "INSERT INTO $db_tablename_7439 (date, value_exc_vat, value_inc_vat) SELECT '$date', '$pricesArray[value_exc_vat]', '$pricesArray[value_inc_vat]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_7439 WHERE date='$date' AND value_inc_vat='$pricesArray[value_inc_vat]' LIMIT 1);";
+    $result = $conn->query($sql);
+    $conn->close();
+}
 function GetCurrentRate()
 {
     require './secrets.php'; # DB Credentials
@@ -111,7 +119,7 @@ function GetCurrentRate()
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-           $value_inc_vat = $row["value_inc_vat"];
+            $value_inc_vat = $row["value_inc_vat"];
         }
     }
     $conn->close();
@@ -132,7 +140,7 @@ function GetHighestRate($howmany)
     $sql = "SELECT valid_from, valid_to, value_inc_vat FROM $db_tablename_9834 WHERE valid_from > '$start_date' AND valid_to < '$end_date' ORDER BY value_inc_vat DESC LIMIT $howmany;";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        print("<pre>" . print_r($result->   fetch_assoc(), true) . "</pre>");
+        print("<pre>" . print_r($result->fetch_assoc(), true) . "</pre>");
 
         while ($row = $result->fetch_assoc()) {
 
@@ -140,13 +148,11 @@ function GetHighestRate($howmany)
             echo "<br>" . $row["valid_from"];
             echo "<br>" . $row["valid_to"];
             $i++;
-            
+
             print("<pre>" . print_r($row, true) . "</pre>");
-
         }
-}
+    }
     $conn->close();
-   # return array('current_rate_per_kWh' => $value_inc_vat);
+    # return array('current_rate_per_kWh' => $value_inc_vat);
 
-   }
-   
+}
