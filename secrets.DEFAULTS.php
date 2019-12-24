@@ -9,6 +9,7 @@ $db_name_9781       = "x";
 $db_tablename_9834  = "ElectricPrices";
 $db_tablename_9833  = "ElectricConsumption";
 
+$tariff_code            = "E-1R-AGILE-18-02-21-A"; #Note, the suffix letter changes based on region, https://en.wikipedia.org/wiki/Distribution_network_operator is your friend.
 $api_key                = "x";
 $elec_mpan              = "x";
 $elec_serial            = "x";
