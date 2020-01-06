@@ -130,17 +130,21 @@ function GetTotalCost($start_date, $end_date)
     date_default_timezone_set('UTC');
     require './secrets.php'; # DB Credentials
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
-    $sql = "SELECT DATE_FORMAT(interval_start, '%Y-%m-%d') date,SUM(c.consumption * p.value_inc_vat) total_cost_GBp, SUM(c.consumption) total_kWh  FROM ElectricConsumption c RIGHT JOIN ElectricPrices p on p.valid_from = c.interval_start WHERE interval_start >= '$start_date 00:00:00' AND interval_start < '$end_date 23:45:00' GROUP BY date";
+    $sql = "SELECT DATE_FORMAT(interval_start, '%Y-%m-%d') date, SUM(c.consumption * p.value_inc_vat) kWh_cost_GBP, SUM(c.consumption) total_kWh, (SELECT value_inc_vat FROM StandingCharges WHERE date = '2020-01-01') standing_charge FROM ElectricConsumption c RIGHT JOIN ElectricPrices p on p.valid_from = c.interval_start WHERE interval_start >= '2020-01-01 00:00:00' AND interval_start < '2020-01-03 23:45:00' GROUP BY date;";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $total_cost_GBP = $row["total_cost_GBp"] / 100;
-            $total_cost_GBP = round($total_cost_GBP, 2);
+            $kWh_cost_GBP = $row["kWh_cost_GBP"] / 100;
+            $kWh_cost_GBP = round($kWh_cost_GBP, 2);
+            $total_cost_GBp = $row["kWh_cost_GBP"] + $row["standing_charge"];
+            $total_cost_GBP = round(($total_cost_GBp / 100), 2);
             $data[$row["date"]]["date"] = $row["date"];
-            $data[$row["date"]]["total_kWh"] = $row["total_kWh"];
-            $data[$row["date"]]["cost_in_GBp"] = $row["total_cost_GBp"];
-            $data[$row["date"]]["cost_in_GBP"] = $total_cost_GBP;
-            $data[$row["date"]]["standing_charge"] = "x";
+            $data[$row["date"]]["kWh_total_consumed"] = $row["total_kWh"];
+            $data[$row["date"]]["kWh_cost_in_GBp"] = $row["kWh_cost_GBP"];
+            $data[$row["date"]]["kWh_cost_in_GBP"] = $kWh_cost_GBP;
+            $data[$row["date"]]["standing_charge_GBp"] = $row["standing_charge"];
+            $data[$row["date"]]["total_cost_in_GBp"] = $total_cost_GBp;
+            $data[$row["date"]]["total_cost_in_GBP"] = $total_cost_GBP;
         }
     }
     $conn->close();
