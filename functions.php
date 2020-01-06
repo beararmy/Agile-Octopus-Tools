@@ -165,19 +165,10 @@ function GetHighestRate($howmany)
     $sql = "SELECT valid_from, valid_to, value_inc_vat FROM $db_tablename_9834 WHERE valid_from > '$start_date' AND valid_to < '$end_date' ORDER BY value_inc_vat DESC LIMIT $howmany;";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
-        print("<pre>" . print_r($result->fetch_assoc(), true) . "</pre>");
-
         while ($row = $result->fetch_assoc()) {
-
-            echo "<br>" . $row["value_inc_vat"];
-            echo "<br>" . $row["valid_from"];
-            echo "<br>" . $row["valid_to"];
-            $i++;
-
-            print("<pre>" . print_r($row, true) . "</pre>");
+            $data[$row["valid_from"]]["GBp_cost_per_kWh_inc_vat"] = $row["value_inc_vat"];
         }
     }
     $conn->close();
-    # return array('current_rate_per_kWh' => $value_inc_vat);
-
+    return $data;
 }
