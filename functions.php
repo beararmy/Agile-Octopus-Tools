@@ -166,9 +166,10 @@ function GetHighestRate($howmany)
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $data[$row["valid_from"]]["GBp_cost_per_kWh_inc_vat"] = $row["value_inc_vat"];
+            $valid_from = $row["valid_from"];
+            $data["results"][$valid_from] = $row["value_inc_vat"];
         }
     }
     $conn->close();
-    return $data;
+    return $data['results'];
 }
