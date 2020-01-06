@@ -26,6 +26,7 @@ require './secrets.php'; # Load secrets
 #$pricesArray = GetUsage($api_key);
 #InsertRecentUsage($pricesArray);
 
+#http://bike.bear.army/azure-function/functions.php?automated=yes
 if (isset($_GET['automated'])) {
     #echo "Doing automated stuff";
     try {
@@ -56,20 +57,18 @@ if (isset($_GET['automated'])) {
     echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
 }
 
-echo "<h2>testing</h2>";
-
-print("<pre>" . print_r(GetStandingCharge($tariff_code), true) . "</pre>");
-
-#echo GetUpcomingPrices($api_key);
-
-#http://bike.bear.army/azure-function/functions.php?automated=yes
-
-#print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");
+# Interactive parts
+echo "<h2>GetTotalCost</h2>";
+$start_date = "2020-01-03";
+$end_date = "2020-01-05";
+print("<pre>" . print_r(GetTotalCost($start_date, $end_date), true) . "</pre>");
 
 echo "<h3> The current rate is:</h3>";
-echo GetCurrentRate()['current_rate_per_kWh'];
+print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");
+#echo GetCurrentRate()['current_rate_per_kWh'];
 
-
-
-echo "<h3> The highest 5 rates today are:</h3>";
+echo "<h3> The highest 3 rates today are:</h3>";
 GetHighestRate("3");
+
+echo "<h2>GetUpcomingPrices</h2>";
+print("<pre>" . print_r(GetUpcomingPrices($api_key)['results'], true) . "</pre>");
