@@ -1,5 +1,7 @@
 <?php
 
+#echo "<h2>You probably want the nice page <a href=index2.php>HERE</a>.<br></h2>";
+
 require './functions.php'; # Load functions
 require './secrets.php'; # Load secrets
 
@@ -67,8 +69,14 @@ echo "<h3> The current rate is:</h3>";
 print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");
 #echo GetCurrentRate()['current_rate_per_kWh'];
 
-echo "<h3> The highest 3 rates today are:</h3>";
-GetHighestRate("3");
+echo "<h2>The highest 30 min periods today are:</h2>";
+print("<pre>" . print_r(GetHighestRate('10'), true) . "</pre>");
+
+#echo "<h3> </h3>";
+#GetHighestRate("3");
 
 echo "<h2>GetUpcomingPrices</h2>";
 print("<pre>" . print_r(GetUpcomingPrices($api_key)['results'], true) . "</pre>");
+
+echo "<h2>GetDaysRatesFromDB</h2>";
+print("<pre>" . print_r(GetDaysRatesFromDB(), true) . "</pre>");
