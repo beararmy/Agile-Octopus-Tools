@@ -42,10 +42,11 @@ function TestMySQLLogin()
         return $status_octopus;
     }
 }
-function GetUsage($api_key)
+function GetUsage()
 {
+    require './secrets.php';
     $api_key = $api_key . ":";
-    $url = "https://api.octopus.energy/v1/electricity-meter-points/1012953229244/meters/18P0906658/consumption/";
+    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, "$api_key");
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -55,10 +56,11 @@ function GetUsage($api_key)
     $json = json_decode($result, true);
     return $json;
 }
-function GetUpcomingPrices($api_key)
+function GetUpcomingPrices()
 {
+    require './secrets.php';
     $api_key = $api_key . ":";
-    $url = "https://api.octopus.energy/v1/products/AGILE-18-02-21/electricity-tariffs/E-1R-AGILE-18-02-21-A/standard-unit-rates/";
+    $url = $base . $upcomingagilerate;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, $api_key);
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -68,9 +70,10 @@ function GetUpcomingPrices($api_key)
     $json = json_decode($result, true);
     return $json;
 }
-function GetStandingCharge($tariff_code)
+function GetStandingCharge()
 {
-    $url = "https://api.octopus.energy/v1/products/AGILE-18-02-21/electricity-tariffs/$tariff_code/standing-charges/";
+    require './secrets.php';
+    $url = $base . $products . $short_tariff_code . "/electricity-tariffs/" . $tariff_code . "/standing-charges/";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_URL, $url);
