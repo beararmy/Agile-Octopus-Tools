@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 require './secrets.php';
 
@@ -111,7 +108,7 @@ function InsertStandingCharge($pricesArray, $date)
 }
 function GetCurrentRate()
 {
-    require './secrets.php'; # DB Credentials
+    require './secrets.php';
     date_default_timezone_set('UTC');
     $datetime = date("Y-m-d H:m:s");
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
@@ -127,8 +124,8 @@ function GetCurrentRate()
 }
 function GetTotalCost($start_date, $end_date)
 {
+    require './secrets.php';
     date_default_timezone_set('UTC');
-    require './secrets.php'; # DB Credentials
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     $sql = "SELECT DATE_FORMAT(interval_start, '%Y-%m-%d') date, SUM(c.consumption * p.value_inc_vat) kWh_cost_GBP, SUM(c.consumption) total_kWh, (SELECT value_inc_vat FROM StandingCharges WHERE date = '$start_date' LIMIT 1) standing_charge FROM ElectricConsumption c RIGHT JOIN ElectricPrices p on p.valid_from = c.interval_start WHERE interval_start >= '$start_date 00:00:00' AND interval_start < '$end_date 23:45:00' GROUP BY date;";
     $result = $conn->query($sql);
@@ -152,8 +149,8 @@ function GetTotalCost($start_date, $end_date)
 }
 function GetTotalCostAsSummary($start_date, $end_date)
 {
+    require './secrets.php';
     date_default_timezone_set('UTC');
-    require './secrets.php'; # DB Credentials
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     $sql = "SELECT DATE_FORMAT(interval_start, '%Y') date, SUM(c.consumption * p.value_inc_vat) kWh_cost_GBP, SUM(c.consumption) total_kWh, (SELECT SUM(value_inc_vat) FROM StandingCharges WHERE date >= '$start_date' AND date <= '$end_date') standing_charge FROM ElectricConsumption c RIGHT JOIN ElectricPrices p on p.valid_from = c.interval_start WHERE interval_start >= '$start_date 00:00:00' AND interval_start < '$end_date' group by date;";
     $result = $conn->query($sql);
@@ -177,12 +174,11 @@ function GetTotalCostAsSummary($start_date, $end_date)
 }
 function GetHighestRate($howmany)
 {
-    $i = 0;
-    if (!isset($howmany)) {
+    require './secrets.php';
+    date_default_timezone_set('UTC');
+    if (!isset($howmany) || ($howmany == "0")) {
         $howmany = 5;
     }
-    require './secrets.php'; # DB Credentials
-    date_default_timezone_set('UTC');
     $start_date = date("Y-m-d");
     $end_date = new DateTime('+1 day');
     $end_date = $end_date->format('Y-m-d');
@@ -200,7 +196,7 @@ function GetHighestRate($howmany)
 }
 function GetTodaysRatesFromDB()
 {
-    require './secrets.php'; # DB Credentials
+    require './secrets.php';
     date_default_timezone_set('UTC');
     $datetime = date("Y-m-d");
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
