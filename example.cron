@@ -6,4 +6,4 @@
 # |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
 # |  |  |  |  |
 # *  *  *  *  * user-name  command to be executed
-* 5,11,17,23 * * * USERNAME curl 'http://bike.bear.army/azure-function/functions.php?automated=yes'
+* 5,11,17,23 * * * USERNAME curl 'http://url.domain.tld/path/to/index.php?automated=yes'
