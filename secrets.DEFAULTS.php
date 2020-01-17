@@ -10,6 +10,7 @@ $db_tablename_9833  = "xyz";            // Table for segment prices
 $db_tablename_7439  = "xyz";            // Table for daily standing charge (changes infrequently)
 
 // Octopus config
+$short_tariff_code = "AGILE-18-02-21";          // The non-localised version of tariff code
 $tariff_code = "E-1R-AGILE-18-02-21-A";         // Note, the suffix letter changes based on region, https://en.wikipedia.org/wiki/Distribution_network_operator is your friend.
 $api_key = "sk_live_xyz";                       // As defined on https://octopus.energy/dashboard/developer/
 $elec_mpan = "0123456789";                      // As defined on https://octopus.energy/dashboard/developer/
