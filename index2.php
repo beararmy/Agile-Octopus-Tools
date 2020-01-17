@@ -85,7 +85,7 @@
         $segmentTimeEnd = date("H:i", strtotime($segmentTimeStart) + 1800);
         $rate = $rate / 100;
         $rate = money_format($GBp_format, $rate);
-        if ((date('H:i')) >= $segmentTimeStart && (date('H:i')) <= $segmentTimeEnd) {
+        if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd) {
             echo "<font class=currentrate>";
         }
         echo "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br /></font>";
