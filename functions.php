@@ -29,17 +29,17 @@ function TestMySQLLogin()
         $sql = "SELECT * from $db_tablename_9834 LIMIT 1;";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
-            $status_octopus = "true";
+            $status_MySQL = "true";
         } else {
-            $status_octopus = "false";
+            $status_MySQL = "false";
             throw new Exception("MySQL Connection Failed");
         }
         $conn->close();
     } catch (\Throwable $th) {
-        $status_octopus = "false";
+        $status_MySQL = "false";
         throw new Exception("MySQL Connection Failed");
     } finally {
-        return $status_octopus;
+        return $status_MySQL;
     }
 }
 function GetUsage()
