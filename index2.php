@@ -18,7 +18,7 @@
     # North West (Current prices)
     echo "<div id=NW><h3>Current Prices</h3>";
     echo "<h4>Current rate (right now!)</h4>";
-    $currentrate = round(GetCurrentRate()['current_rate_per_kWh'], 1) / 100;
+    $currentrate = round(GetCurrentRate()['current_rate_per_kWh'], 6) / 100;
     $currentrate = money_format($GBp_format, $currentrate);
     echo "$currentrate per kWh";
 
