@@ -197,13 +197,17 @@ function GetHighestRate($howmany)
     $conn->close();
     return $data['results'];
 }
-function GetTodaysRatesFromDB()
+function GetTodaysRatesFromDB($allfuture)
 {
     require './secrets.php';
     date_default_timezone_set('UTC');
     $datetime = date("Y-m-d");
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
-    $sql = "SELECT * FROM $db_tablename_9834 WHERE valid_from >= '$datetime 00:00:00' AND valid_from <= '$datetime 23:59:00' ORDER BY valid_from;";
+    if ($allfuture) {
+        $sql = "SELECT * FROM $db_tablename_9834 WHERE valid_from >= '$datetime 00:00:00' ORDER BY valid_from;";
+    } else {
+        $sql = "SELECT * FROM $db_tablename_9834 WHERE valid_from >= '$datetime 00:00:00' AND valid_from <= '$datetime 23:59:00' ORDER BY valid_from;";
+    }
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {

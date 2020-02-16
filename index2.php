@@ -83,8 +83,13 @@
     echo "</div>";
 
     # South East corner! (Today's prices)
-    echo "<div id=SE><h3>Today's prices</h3>";
-    $todaysPrices = GetTodaysRatesFromDB();
+    $allfuture = True;
+    if ($allfuture) {
+        echo "<div id=SE><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3>";
+    } else {
+        echo "<div id=SE><h3>Upcoming prices</h3>";
+    }
+    $todaysPrices = GetTodaysRatesFromDB($allfuture);
     foreach ($todaysPrices as $segmentTimeStart => $rate) {
         $segmentTimeStart = strtotime($segmentTimeStart);
         $segmentTimeStart = date('H:i', $segmentTimeStart);
