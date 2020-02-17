@@ -6,10 +6,8 @@
 </head>
 
 <body>
-    <script document.onload=()=>
-        {
-            location.href = "#now"
-        };
+    <script>
+        document.onload = ()=>{ location.href = "#now" };
     </script>
 
     <?php
