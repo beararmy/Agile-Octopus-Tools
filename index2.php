@@ -6,10 +6,8 @@
 </head>
 
 <body>
-    <script document.onload=()=>
-        {
-            location.href = "#now"
-        };
+    <script>
+        document.onload = ()=>{ location.href = "#now" };
     </script>
 
     <?php
@@ -60,10 +58,13 @@
         $segmentTimeEnd = date("H:i", strtotime($segmentTimeStart) + 1800);
         $rate = $rate / 100;
         $rate = money_format($GBp_format, $rate);
+        $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
         if ((date('H:i')) >= $segmentTimeStart && (date('H:i')) <= $segmentTimeEnd) {
-            echo "<font class=currentrate>";
+            echo "<span class=currentrate>".$lineText."</span>";
         }
-        echo "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br /></font>";
+        else{
+            echo $lineText;
+        }
     }
     echo "</p></div>";
 
@@ -96,9 +97,12 @@
         $segmentTimeEnd = date("H:i", strtotime($segmentTimeStart) + 1800);
         $rate = $rate / 100;
         $rate = money_format($GBp_format, $rate);
+        $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
         if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd) {
-            echo "<font id='now' class=currentrate>";
+            echo  "<span id='now' class=currentrate>".$lineText."</span>";
         }
-        echo "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br /></font>";
+        else{
+            echo $lineText;
+        }
     }
     echo "</div>";
