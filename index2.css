@@ -1,39 +1,47 @@
-html, body { height:100%;
-    margin:0;
-    padding:0
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0
 }
+
 h4 {
     padding-bottom: 2px;
     margin-bottom: 2px;
     margin-top: 10px;
 }
+
 .currentrate {
     color: red;
     font-size: large;
 }
 
-div { position:fixed;
-    width:50%;
-    height:50%;
+div {
+    position: fixed;
+    width: 50%;
+    height: 50%;
     overflow: scroll
 }
 
-#NW { top:0;
-    left:0;
-    background:Gainsboro
+#NW {
+    top: 0;
+    left: 0;
+    background: Gainsboro
 }
 
-#NE { top:0;   
-    left:50%; 
-    background:Aliceblue
+#NE {
+    top: 0;
+    left: 50%;
+    background: Aliceblue
 }
 
-#SW { top:50%; 
-    left:0;   
-    background:Aliceblue
+#SW {
+    top: 50%;
+    left: 0;
+    background: Aliceblue
 }
 
-#SE { top:50%; 
-    left:50%; 
-    background:Gainsboro
+#SE {
+    top: 50%;
+    left: 50%;
+    background: Gainsboro
 }

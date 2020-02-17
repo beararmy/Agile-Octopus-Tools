@@ -7,7 +7,9 @@
 
 <body>
     <script>
-        document.onload = ()=>{ location.href = "#now" };
+        document.onload = () => {
+            location.href = "#now"
+        };
     </script>
 
     <?php
@@ -60,9 +62,8 @@
         $rate = money_format($GBp_format, $rate);
         $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
         if ((date('H:i')) >= $segmentTimeStart && (date('H:i')) <= $segmentTimeEnd) {
-            echo "<span class=currentrate>".$lineText."</span>";
-        }
-        else{
+            echo "<span class=currentrate>" . $lineText . "</span>";
+        } else {
             echo $lineText;
         }
     }
@@ -99,9 +100,8 @@
         $rate = money_format($GBp_format, $rate);
         $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
         if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd) {
-            echo  "<span id='now' class=currentrate>".$lineText."</span>";
-        }
-        else{
+            echo  "<span id='now' class=currentrate>" . $lineText . "</span>";
+        } else {
             echo $lineText;
         }
     }
