@@ -92,6 +92,7 @@
         echo "<div id=SE><h3>Upcoming prices</h3>";
     }
     $todaysPrices = GetTodaysRatesFromDB($allfuture);
+    $currentAlreadyHighlighted = false;
     foreach ($todaysPrices as $segmentTimeStart => $rate) {
         $segmentTimeStart = strtotime($segmentTimeStart);
         $segmentTimeStart = date('H:i', $segmentTimeStart);
@@ -99,8 +100,9 @@
         $rate = $rate / 100;
         $rate = money_format($GBp_format, $rate);
         $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
-        if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd) {
+        if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd && ($currentAlreadyHighlighted == false ) ) {
             echo  "<span id='now' class=currentrate>" . $lineText . "</span>";
+            $currentAlreadyHighlighted = true;
         } else {
             echo $lineText;
         }
