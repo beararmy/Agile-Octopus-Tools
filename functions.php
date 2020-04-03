@@ -46,7 +46,7 @@ function GetUsage()
 {
     require './secrets.php';
     $api_key = $api_key . ":";
-    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/";
+    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/?page_size=336";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, "$api_key");
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -96,6 +96,7 @@ function InsertRecentUsage($pricesArray)
     require './secrets.php';
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     foreach ($pricesArray['results'] as $row => $innerArray) {
+        $innerArray["interval_start"] = gmdate('c', strtotime($innerArray["interval_start"])); # Roll TZ modifier into datetime as if Zulu
         $sql = "INSERT INTO $db_tablename_9833 (interval_start, interval_end, consumption) SELECT '$innerArray[interval_start]', '$innerArray[interval_end]','$innerArray[consumption]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9833 WHERE interval_start='$innerArray[interval_start]' AND interval_end='$innerArray[interval_end]' LIMIT 1);";
         $result = $conn->query($sql);
     }
