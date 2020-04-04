@@ -20,6 +20,7 @@
     setlocale(LC_MONETARY, 'en_GB.utf8');
     $GBP_format = "%.2n";
     $GBp_format = "%.2n";
+    $negative_GBp_format = "%.4n";
 
     # North West (Current prices)
     echo "<div id=NW><h3>Current Prices</h3>";
@@ -98,7 +99,11 @@
         $segmentTimeStart = date('H:i', $segmentTimeStart);
         $segmentTimeEnd = date("H:i", strtotime($segmentTimeStart) + 1800);
         $rate = $rate / 100;
-        $rate = money_format($GBp_format, $rate);
+        if ($rate <= 0) {
+            $rate = money_format($negative_GBp_format, $rate);
+        } else {
+            $rate = money_format($GBp_format, $rate);
+        }
         $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
         if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd && ($currentAlreadyHighlighted == false ) ) {
             echo  "<span id='now' class=currentrate>" . $lineText . "</span>";
