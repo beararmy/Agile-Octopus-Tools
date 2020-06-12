@@ -98,8 +98,10 @@ function InsertRecentUsage($pricesArray)
     require './secrets.php';
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     foreach ($pricesArray['results'] as $row => $innerArray) {
-        $innerArray["interval_start"] = gmdate('c', strtotime($innerArray["interval_start"])); # Roll TZ modifier into datetime as if Zulu
-        $sql = "INSERT INTO $db_tablename_9833 (interval_start, interval_end, consumption) SELECT '$innerArray[interval_start]', '$innerArray[interval_end]','$innerArray[consumption]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9833 WHERE interval_start='$innerArray[interval_start]' AND interval_end='$innerArray[interval_end]' LIMIT 1);";
+        $interval_start_php = date('Y-m-d H:i:s', strtotime($innerArray['interval_start']));
+        $interval_end_php = date('Y-m-d H:i:s', strtotime($innerArray['interval_end']));
+        #$innerArray["interval_start"] = gmdate('c', strtotime($innerArray["interval_start"])); # Roll TZ modifier into datetime as if Zulu0
+        $sql = "INSERT INTO $db_tablename_9833 (interval_start, interval_end, consumption) SELECT '$interval_start_php', '$interval_end_php','$innerArray[consumption]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9833 WHERE interval_start='$interval_start_php' AND interval_end='$interval_end_php' LIMIT 1);";
         $result = $conn->query($sql);
     }
     $conn->close();
