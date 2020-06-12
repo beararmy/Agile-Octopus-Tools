@@ -86,7 +86,9 @@ function InsertUpcomingPrices($pricesArray)
     require './secrets.php';
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     foreach ($pricesArray['results'] as $row => $innerArray) {
-        $sql = "INSERT INTO $db_tablename_9834 (valid_from, valid_to, value_exc_vat, value_inc_vat ) SELECT '$innerArray[valid_from]', '$innerArray[valid_to]','$innerArray[value_exc_vat]','$innerArray[value_inc_vat]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9834 WHERE valid_from='$innerArray[valid_from]' AND valid_to='$innerArray[valid_to]' LIMIT 1);";
+        $from_time_php = date('Y-m-d H:i:s', strtotime($innerArray['valid_from']));
+        $to_time_php = date('Y-m-d H:i:s', strtotime($innerArray['valid_to']));
+        $sql = "INSERT INTO $db_tablename_9834 (valid_from, valid_to, value_exc_vat, value_inc_vat ) SELECT '$from_time_php', '$to_time_php','$innerArray[value_exc_vat]','$innerArray[value_inc_vat]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9834 WHERE valid_from='$from_time_php' AND valid_to='$to_time_php' LIMIT 1);";
         $result = $conn->query($sql);
     }
     $conn->close();
