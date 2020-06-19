@@ -50,7 +50,31 @@
         $value = money_format($GBP_format, $number);
         echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
     }
-    echo "</div>";
+
+    echo "<h4>Cheapest 3Hr Windows</h4>";
+    $numberofWindowsToShow = 2;
+    $x = 0;
+    $cheapestWindows = CalculateCheapestWindow();
+    foreach ($cheapestWindows as $segmentTimeEnd => $rate) {
+        if ($rate && $x < $numberofWindowsToShow) {
+            $rate = $rate / 100;
+            if ($rate <= 0) {
+                $rate = money_format($negative_GBp_format, $rate);
+            } else {
+                $rate = money_format($GBp_format, $rate);
+            }
+            $friendlyStart = date("H:i", strtotime($segmentTimeEnd) - 10800);
+            $friendlyEnd = date("H:i", strtotime($segmentTimeEnd));
+            if (date("d-m", strtotime($segmentTimeEnd)) == date("d-m")) {
+                $friendlyDay = "today";
+            } else {
+                $friendlyDay = "tomorrow";
+            }
+            echo "Starting $friendlyStart, ending $friendlyDay at $friendlyEnd, AvgRate $rate";
+            echo "<br>";
+            $x++;
+        }
+    }
 
     # North East corner! (Most Expensive)
     echo "<div id=NE><h3>Today's most expensive times</h3><p>";
