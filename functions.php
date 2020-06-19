@@ -219,3 +219,29 @@ function GetTodaysRatesFromDB($allfuture)
     $conn->close();
     return $data['results'];
 }
+function CalculateCheapestWindow()
+{
+    require './secrets.php';
+    date_default_timezone_set('UTC');
+    $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
+    $sql = "SELECT *, ( (
+		value_inc_vat +
+        LEAD(value_inc_vat, 1) OVER (ORDER BY valid_to) +
+        LEAD(value_inc_vat, 2) OVER (ORDER BY valid_to) +
+        LEAD(value_inc_vat, 3) OVER (ORDER BY valid_to) +
+        LEAD(value_inc_vat, 4) OVER (ORDER BY valid_to) +
+		LEAD(value_inc_vat, 5) OVER (ORDER BY valid_to) ) / 6 )
+		AS 4hR_Hour_wndw
+       FROM AgileOctopus.ElectricPrices
+       WHERE valid_to > NOW()
+       ORDER BY 4hR_Hour_wndw;";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $valid_to = $row["valid_to"];
+            $data["results"][$valid_to] = $row["4hR_Hour_wndw"];
+        }
+    }
+    $conn->close();
+    return $data['results'];
+}
