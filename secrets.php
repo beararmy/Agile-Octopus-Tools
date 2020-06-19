@@ -22,3 +22,6 @@ $base = "https://api.octopus.energy/v1/";
 $products = "products/";
 $emeter = "electricity-meter-points/";
 $upcomingagilerate = "products/AGILE-18-02-21/electricity-tariffs/E-1R-AGILE-18-02-21-A/standard-unit-rates/";
+
+// Site config
+$number_results_consumption = getenv("number_results_consumption");
