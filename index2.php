@@ -129,7 +129,7 @@
             $rate = money_format($GBp_format, $rate);
         }
         $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
-        if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd && ($currentAlreadyHighlighted == false ) ) {
+        if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd && ($currentAlreadyHighlighted == false)) {
             echo  "<span id='now' class=currentrate>" . $lineText . "</span>";
             $currentAlreadyHighlighted = true;
         } else {
