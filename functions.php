@@ -228,17 +228,7 @@ function CalculateCheapestWindow()
     require './secrets.php';
     date_default_timezone_set('UTC');
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
-    $sql = "SELECT *, ( (
-		value_inc_vat +
-        LEAD(value_inc_vat, 1) OVER (ORDER BY valid_to) +
-        LEAD(value_inc_vat, 2) OVER (ORDER BY valid_to) +
-        LEAD(value_inc_vat, 3) OVER (ORDER BY valid_to) +
-        LEAD(value_inc_vat, 4) OVER (ORDER BY valid_to) +
-		LEAD(value_inc_vat, 5) OVER (ORDER BY valid_to) ) / 6 )
-		AS 4hR_Hour_wndw
-       FROM AgileOctopus.ElectricPrices
-       WHERE valid_to > NOW()
-       ORDER BY 4hR_Hour_wndw;";
+    $sql = "SELECT ElectricPrices.entry_id, valid_to, AVG(value_inc_vat) OVER(ORDER BY valid_to ROWS BETWEEN CURRENT ROW AND 5 FOLLOWING) AS 4hR_Hour_wndw FROM ElectricPrices LEFT JOIN ( SELECT entry_id FROM ElectricPrices ORDER BY valid_to DESC LIMIT 5) AS Last_5 ON Last_5.entry_id = ElectricPrices.entry_id WHERE valid_to > NOW() AND Last_5.entry_id IS NULL ORDER BY 4hR_Hour_wndw;";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {

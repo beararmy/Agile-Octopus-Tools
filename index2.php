@@ -52,7 +52,7 @@
     }
 
     echo "<h4>Cheapest 3Hr Windows</h4>";
-    $numberofWindowsToShow = 2;
+    $numberofWindowsToShow = 3;
     $x = 0;
     $cheapestWindows = CalculateCheapestWindow();
     foreach ($cheapestWindows as $segmentTimeEnd => $rate) {
@@ -63,8 +63,8 @@
             } else {
                 $rate = money_format($GBp_format, $rate);
             }
-            $friendlyStart = date("H:i", strtotime($segmentTimeEnd) - 10800);
-            $friendlyEnd = date("H:i", strtotime($segmentTimeEnd));
+            $friendlyStart = date("H:i", strtotime($segmentTimeEnd));
+            $friendlyEnd = date("H:i", strtotime($segmentTimeEnd) + 10800);
             if (date("d-m", strtotime($segmentTimeEnd)) == date("d-m")) {
                 $friendlyDay = "today";
             } else {
