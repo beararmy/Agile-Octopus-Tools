@@ -5,12 +5,29 @@ html body {
     /* Standard syntax (must be last) */
 }
 
+* {
+    box-sizing: border-box;
+}
 
-/* h4 {
-    padding-bottom: 2px;
-    margin-bottom: 2px;
-    margin-top: 10px;
-} */
+
+/* Create two equal columns that floats next to each other */
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px;
+    /* Should be removed. Only for demonstration */
+}
+
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
 
 .currentrate {
     color: red;
@@ -18,10 +35,12 @@ html body {
 }
 
 div {
-    border: 1px green;
+    display: flex;
     width: 50%;
-    height: 50%;
-    overflow: scroll
+    padding: 5px;
+    border: 5px solid black;
+    border: 5;
+    margin: 7px;
 }
 
 #NW {

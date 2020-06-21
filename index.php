@@ -48,6 +48,9 @@
         $GBp_format = "%.2n";
         $negative_GBp_format = "%.4n";
 
+
+        echo "<div class=row><div class=column>";
+
         // Connection Statuses
         echo "<div id=statuses>";
         $call_url = $base . $emeter . $elec_mpan . "/";
@@ -128,6 +131,8 @@
         }
         echo "</p></div>";
 
+        echo "</div><div class=column>";
+
         // South West corner (Last n days costs.)
         echo "<div id=SW><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
@@ -172,3 +177,5 @@
         }
         echo "</p></div>";
     }
+
+    echo "</div></div></body></html>";
