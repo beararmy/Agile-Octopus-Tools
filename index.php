@@ -52,7 +52,7 @@
         echo "<div class=row><div class=column>";
 
         // Connection Statuses
-        echo "<div id=statuses>";
+        echo "<div id=statuses class=insidebox>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
@@ -60,7 +60,7 @@
         echo "</div>";
 
         // North West (Current prices)
-        echo "<div id=NW><h3>Misc info</h3>";
+        echo "<div id=NW class=insidebox><h3>Misc info</h3>";
         echo "<h4>Current rate (right now!)</h4>";
         $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
         $currentrate = money_format($GBp_format, $currentrate);
@@ -114,7 +114,7 @@
         echo "</div>";
 
         // North East corner (Most Expensive)
-        echo "<div id=NE><h3>Today's most expensive times</h3><p>";
+        echo "<div id=NE class=insidebox><h3>Today's most expensive times</h3><p>";
         $highestrates = GetHighestRate('10');
         foreach ($highestrates as $segmentTimeStart => $rate) {
             $segmentTimeStart = strtotime($segmentTimeStart);
@@ -134,7 +134,7 @@
         echo "</div><div class=column>";
 
         // South West corner (Last n days costs.)
-        echo "<div id=SW><h3>Recent daily Totals</h3>";
+        echo "<div id=SW class=insidebox><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
         $numberofDaysToShow = 1;
         $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
@@ -151,9 +151,9 @@
         // South East corner (Today's prices)
         $allfuture = True;
         if ($allfuture) {
-            echo "<div id=SE><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
+            echo "<div id=SE class=insidebox><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
         } else {
-            echo "<div id=SE><h3>Upcoming prices</h3><p>";
+            echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         }
         $todaysPrices = GetTodaysRatesFromDB($allfuture);
         $currentAlreadyHighlighted = false;
