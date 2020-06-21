@@ -29,7 +29,8 @@ html body {
 }
 
 .insidebox {
-    border: 3px solid black
+    border: 3px solid black;
+    background: paleturquoise
 }
 
 div {
@@ -37,22 +38,6 @@ div {
     margin-left: 15px;
 }
 
-#NW {
-    background: Gainsboro
-}
-
 #statuses {
     background: greenyellow
-}
-
-#NE {
-    background: Aliceblue
-}
-
-#SW {
-    background: Aliceblue
-}
-
-#SE {
-    background: Gainsboro
 }

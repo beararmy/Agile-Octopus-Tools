@@ -113,6 +113,23 @@
         }
         echo "</div>";
 
+        // South West corner (Last n days costs.)
+        echo "<div id=SW class=insidebox><h3>Recent daily Totals</h3>";
+        echo "<h4>Recent Days</h4><p>";
+        $numberofDaysToShow = 1;
+        $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
+        $end_date = date("Y-m-d", time() - 86400);
+        $recentPrices = GetTotalCost($start_date, $end_date);
+        $recentPrices = array_reverse($recentPrices);
+        foreach ($recentPrices as $date => $values) {
+            $number = $values['total_cost_in_GBP'];
+            $value = money_format($GBP_format, $number);
+            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+        }
+        echo "</p></div>";
+
+        echo "</div><div class=column>";
+
         // North East corner (Most Expensive)
         echo "<div id=NE class=insidebox><h3>Today's most expensive times</h3><p>";
         $highestrates = GetHighestRate('10');
@@ -128,23 +145,6 @@
             } else {
                 echo $lineText;
             }
-        }
-        echo "</p></div>";
-
-        echo "</div><div class=column>";
-
-        // South West corner (Last n days costs.)
-        echo "<div id=SW class=insidebox><h3>Recent daily Totals</h3>";
-        echo "<h4>Recent Days</h4><p>";
-        $numberofDaysToShow = 1;
-        $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
-        $end_date = date("Y-m-d", time() - 86400);
-        $recentPrices = GetTotalCost($start_date, $end_date);
-        $recentPrices = array_reverse($recentPrices);
-        foreach ($recentPrices as $date => $values) {
-            $number = $values['total_cost_in_GBP'];
-            $value = money_format($GBP_format, $number);
-            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
         }
         echo "</p></div>";
 
