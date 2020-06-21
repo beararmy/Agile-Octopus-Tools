@@ -1,79 +1,169 @@
-<?php
+<!DOCTYPE html>
+<html>
 
-// echo "<h2>You probably want the nice page <a href=index2.php>HERE</a>.<br></h2>";
+<head>
+    <link rel="stylesheet" href="index.css">
+</head>
 
-require './functions.php'; // Load functions
-require './secrets.php'; // Load secrets
+<body>
+    <script>
+        document.onload = () => {
+            location.href = "#now"
+        };
+    </script>
 
-if (isset($_GET['automated'])) {
-    // This is automated, called periodically with cronjob to pull in new data
-    try {
-        // Do some checks
+    <?php
+    require './functions.php'; // Load functions
+    require './secrets.php';   // Load secrets
+
+    if (isset($_GET['automated'])) {
+        // This is automated, called periodically with cronjob to pull in new data
+        try {
+            // Do some checks
+            $call_url = $base . $emeter . $elec_mpan . "/";
+            $status_octopus = TestOctopusLogin($api_key, $call_url);
+            $status_mysql = TestMySQLLogin();
+
+            // Update tomorrow's prices (expected 16:00 UTC/0)
+            $pricesArray = GetUpcomingPrices();
+            InsertUpcomingPrices($pricesArray);
+
+            // Update the most recent usage stats
+            $pricesArray = GetUsage();
+            InsertRecentUsage($pricesArray);
+
+            // Update the standing charges for the day
+            $date = date("Y-m-d");
+            $pricesArray = GetStandingCharge();
+            InsertStandingCharge($pricesArray, $date);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    } else {
+        // This is the human-viewable site
+
+        // Set global config things
+        setlocale(LC_MONETARY, 'en_GB.utf8');
+        $GBP_format = "%.2n";
+        $GBp_format = "%.2n";
+        $negative_GBp_format = "%.4n";
+
+        // North West (Current prices)
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
+        echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
+        echo "<div id=NW><h3>Current Prices</h3>";
+        echo "<h4>Current rate (right now!)</h4>";
+        $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
+        $currentrate = money_format($GBp_format, $currentrate);
+        echo "$currentrate per kWh";
 
-        // Update tomorrow's prices (expected 16:00 UTC/0)
-        $pricesArray = GetUpcomingPrices();
-        InsertUpcomingPrices($pricesArray);
+        echo "<h4>Current month</h4>";
+        $start_date = date('Y-m-d', strtotime('first day of this month'));
+        $end_date = date('Y-m-d', strtotime('last day of this month'));
+        $recentPrices = GetTotalCostAsSummary($start_date, $end_date);
+        foreach ($recentPrices as $date => $values) {
+            $date = date('M', $date);
+            $number = $values['total_cost_in_GBP'];
+            $value = money_format($GBP_format, $number);
+            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+        }
 
-        // Update the most recent usage stats
-        $pricesArray = GetUsage();
-        InsertRecentUsage($pricesArray);
+        echo "<h4>Current Year</h4>";
+        $start_date = date('Y-m-d', strtotime('Jan 1'));
+        $end_date = date('Y-m-d', strtotime('Dec 31'));
+        $recentPrices = GetTotalCostAsSummary($start_date, $end_date);
+        foreach ($recentPrices as $date => $values) {
+            $number = $values['total_cost_in_GBP'];
+            $value = money_format($GBP_format, $number);
+            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+        }
 
-        // Update the standing charges for the day
-        $date = date("Y-m-d");
-        $pricesArray = GetStandingCharge();
-        InsertStandingCharge($pricesArray, $date);
-    } catch (\Throwable $th) {
-        throw $th;
+        echo "<h4>Cheapest 3Hr Windows</h4>";
+        $numberofWindowsToShow = 3;
+        $x = 0;
+        $cheapestWindows = CalculateCheapestWindow();
+        foreach ($cheapestWindows as $segmentTimeEnd => $rate) {
+            if ($rate && $x < $numberofWindowsToShow) {
+                $rate = $rate / 100;
+                if ($rate <= 0) {
+                    $rate = money_format($negative_GBp_format, $rate);
+                } else {
+                    $rate = money_format($GBp_format, $rate);
+                }
+                $friendlyStart = date("H:i", strtotime($segmentTimeEnd));
+                $friendlyEnd = date("H:i", strtotime($segmentTimeEnd) + 10800);
+                if (date("d-m", strtotime($segmentTimeEnd)) == date("d-m")) {
+                    $friendlyDay = "today";
+                } else {
+                    $friendlyDay = "tomorrow";
+                }
+                echo "Starting $friendlyStart, ending $friendlyDay at $friendlyEnd, AvgRate $rate";
+                echo "<br>";
+                $x++;
+            }
+        }
+
+        // North East corner (Most Expensive)
+        echo "<div id=NE><h3>Today's most expensive times</h3><p>";
+        $highestrates = GetHighestRate('10');
+        foreach ($highestrates as $segmentTimeStart => $rate) {
+            $segmentTimeStart = strtotime($segmentTimeStart);
+            $segmentTimeStart = date('H:i', $segmentTimeStart);
+            $segmentTimeEnd = date("H:i", strtotime($segmentTimeStart) + 1800);
+            $rate = $rate / 100;
+            $rate = money_format($GBp_format, $rate);
+            $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
+            if ((date('H:i')) >= $segmentTimeStart && (date('H:i')) <= $segmentTimeEnd) {
+                echo "<span class=currentrate>" . $lineText . "</span>";
+            } else {
+                echo $lineText;
+            }
+        }
+        echo "</p></div>";
+
+        // South West corner (Last n days costs.)
+        echo "<div id=SW><h3>Recent daily Totals</h3>";
+        echo "<h4>Recent Days</h4>";
+        $numberofDaysToShow = 5;
+        $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
+        $end_date = date("Y-m-d", time() - 86400);
+        $recentPrices = GetTotalCost($start_date, $end_date);
+        $recentPrices = array_reverse($recentPrices);
+        foreach ($recentPrices as $date => $values) {
+            $number = $values['total_cost_in_GBP'];
+            $value = money_format($GBP_format, $number);
+            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+        }
+        echo "</div>";
+
+        // South East corner (Today's prices)
+        $allfuture = True;
+        if ($allfuture) {
+            echo "<div id=SE><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3>";
+        } else {
+            echo "<div id=SE><h3>Upcoming prices</h3>";
+        }
+        $todaysPrices = GetTodaysRatesFromDB($allfuture);
+        $currentAlreadyHighlighted = false;
+        foreach ($todaysPrices as $segmentTimeStart => $rate) {
+            $segmentTimeStart = strtotime($segmentTimeStart);
+            $segmentTimeStart = date('H:i', $segmentTimeStart);
+            $segmentTimeEnd = date("H:i", strtotime($segmentTimeStart) + 1800);
+            $rate = $rate / 100;
+            if ($rate <= 0) {
+                $rate = money_format($negative_GBp_format, $rate);
+            } else {
+                $rate = money_format($GBp_format, $rate);
+            }
+            $lineText = "$segmentTimeStart - $segmentTimeEnd is <b>$rate</b> GBp per kWh<br />";
+            if ((date('H:i')) > $segmentTimeStart && (date('H:i')) < $segmentTimeEnd && ($currentAlreadyHighlighted == false)) {
+                echo  "<span id='now' class=currentrate>" . $lineText . "</span>";
+                $currentAlreadyHighlighted = true;
+            } else {
+                echo $lineText;
+            }
+        }
+        echo "</div>";
     }
-} else {
-    $call_url = $base . $emeter . $elec_mpan . "/";
-    $status_octopus = TestOctopusLogin($api_key, $call_url);
-    $status_mysql = TestMySQLLogin();
-    echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
-}
-
-// Below are many examples of working code and how you may use each function
-
-// Test: function TestOctopusLogin
-// $call_url = $base . $emeter . $elec_mpan . "/";
-// $status_octopus = TestOctopusLogin($api_key, $call_url);
-// echo $status_octopus;
-
-// Test: function TestMySQLLogin
-// $status_octopus = TestMySQLLogin();
-// echo $status_octopus;
-
-// Test: function GetUsage
-// print("<pre>" . print_r(GetUsage(), true) . "</pre>");
-
-// Test: function GetUpcomingPrices
-// print("<pre>" . print_r(GetUpcomingPrices($api_key), true) . "</pre>");
-
-// Test: function InsertUpcomingPrices
-// $pricesArray = GetUpcomingPrices($api_key);
-// InsertUpcomingPrices($pricesArray);
-
-// Test: function InsertRecentUsage
-// $pricesArray = GetUsage($api_key);
-// InsertRecentUsage($pricesArray);
-
-// Test: function GetTotalCost
-// $start_date = "2020-01-03";
-// $end_date = "2020-01-05";
-// print("<pre>" . print_r(GetTotalCost($start_date, $end_date), true) . "</pre>");
-
-// Test: function GetCurrentRate
-// print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");
-// echo GetCurrentRate()['current_rate_per_kWh'];
-
-// Test: function GetHighestRate
-// print("<pre>" . print_r(GetHighestRate('10'), true) . "</pre>");
-
-// Test: function GetUpcomingPrices
-// print("<pre>" . print_r(GetUpcomingPrices($api_key)['results'], true) . "</pre>");
-
-// Test: function GetDaysRatesFromDB
-// print("<pre>" . print_r(GetDaysRatesFromDB(), true) . "</pre>");
