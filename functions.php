@@ -46,7 +46,7 @@ function GetUsage()
 {
     require './secrets.php';
     $api_key = $api_key . ":";
-    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/?page_size=336";
+    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/?page_size=" . $number_results_consumption;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, "$api_key");
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
