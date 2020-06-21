@@ -38,6 +38,10 @@ div {
     margin-left: 15px;
 }
 
-#statuses {
+.statuses {
     background: greenyellow
+}
+
+.recentdailytotals {
+    background: wheat;
 }

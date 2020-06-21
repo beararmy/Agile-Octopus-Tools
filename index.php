@@ -52,7 +52,7 @@
         echo "<div class=row><div class=column>";
 
         // Connection Statuses
-        echo "<div id=statuses class=insidebox>";
+        echo "<div class='insidebox statuses'>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
@@ -119,7 +119,7 @@
         echo "</div>";
 
         // South West corner (Last n days costs.)
-        echo "<div id=SW class=insidebox><h3>Recent daily Totals</h3>";
+        echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
         $numberofDaysToShow = 2;
         $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
