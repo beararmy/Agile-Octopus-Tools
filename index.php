@@ -48,20 +48,33 @@
         $GBp_format = "%.2n";
         $negative_GBp_format = "%.4n";
 
+
+        echo "<div class=row><div class=column>";
+
         // Connection Statuses
-        echo "<div id=statuses><p>";
+        echo "<div class='insidebox statuses'>";
+        echo "<h4>Connection Statuses</h4>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
-        echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
-        echo "</p></div>";
+        echo "<p>Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b></p>";
+        echo "</div>";
+
+        // Configuration
+        echo "<div class='configuration insidebox'>";
+        echo "<h4>Configurtion Options</h4>";
+        echo "<p>Number of days to show: xxx<br>
+        Timezone: xxx<br>
+        Something: xxx<br>
+        Something else: xxx</p>";
+        echo "</div>";
 
         // North West (Current prices)
-        echo "<div id=NW><h3>Current Prices</h3><p>";
+        echo "<div id=NW class=insidebox><h3>Misc info</h3>";
         echo "<h4>Current rate (right now!)</h4>";
         $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
         $currentrate = money_format($GBp_format, $currentrate);
-        echo "$currentrate per kWh";
+        echo "<p>$currentrate per kWh</p>";
 
         echo "<h4>Current month</h4>";
         $start_date = date('Y-m-d', strtotime('first day of this month'));
@@ -71,7 +84,7 @@
             $date = date('M', $date);
             $number = $values['total_cost_in_GBP'];
             $value = money_format($GBP_format, $number);
-            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+            echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
         }
 
         echo "<h4>Current Year</h4>";
@@ -81,10 +94,10 @@
         foreach ($recentPrices as $date => $values) {
             $number = $values['total_cost_in_GBP'];
             $value = money_format($GBP_format, $number);
-            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+            echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
         }
 
-        echo "<h4>Cheapest 3Hr Windows</h4>";
+        echo "<h4>Cheapest 3 Hour Windows</h4>";
         $numberofWindowsToShow = 3;
         $x = 0;
         $cheapestWindows = CalculateCheapestWindow();
@@ -103,15 +116,32 @@
                 } else {
                     $friendlyDay = "tomorrow";
                 }
-                echo "Starting $friendlyStart, ending $friendlyDay at $friendlyEnd, AvgRate $rate";
-                echo "<br>";
+                echo "<p>Starting $friendlyStart, ending $friendlyDay at $friendlyEnd, AvgRate $rate<br>";
                 $x++;
             }
+            echo "</p>";
         }
         echo "</div>";
 
+        // South West corner (Last n days costs.)
+        echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
+        echo "<h4>Recent Days</h4><p>";
+        $numberofDaysToShow = 2;
+        $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
+        $end_date = date("Y-m-d", time() - 86400);
+        $recentPrices = GetTotalCost($start_date, $end_date);
+        $recentPrices = array_reverse($recentPrices);
+        foreach ($recentPrices as $date => $values) {
+            $number = $values['total_cost_in_GBP'];
+            $value = money_format($GBP_format, $number);
+            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+        }
+        echo "</p></div>";
+
+        echo "</div><div class=column>";
+
         // North East corner (Most Expensive)
-        echo "<div id=NE><h3>Today's most expensive times</h3><p>";
+        echo "<div class='insidebox mostexpensive'><h3>Today's most expensive times</h3><p>";
         $highestrates = GetHighestRate('10');
         foreach ($highestrates as $segmentTimeStart => $rate) {
             $segmentTimeStart = strtotime($segmentTimeStart);
@@ -128,27 +158,12 @@
         }
         echo "</p></div>";
 
-        // South West corner (Last n days costs.)
-        echo "<div id=SW><h3>Recent daily Totals</h3>";
-        echo "<h4>Recent Days</h4>";
-        $numberofDaysToShow = 5;
-        $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
-        $end_date = date("Y-m-d", time() - 86400);
-        $recentPrices = GetTotalCost($start_date, $end_date);
-        $recentPrices = array_reverse($recentPrices);
-        foreach ($recentPrices as $date => $values) {
-            $number = $values['total_cost_in_GBP'];
-            $value = money_format($GBP_format, $number);
-            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
-        }
-        echo "</div>";
-
         // South East corner (Today's prices)
         $allfuture = True;
         if ($allfuture) {
-            echo "<div id=SE><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3>";
+            echo "<div id=SE class=insidebox><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
         } else {
-            echo "<div id=SE><h3>Upcoming prices</h3>";
+            echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         }
         $todaysPrices = GetTodaysRatesFromDB($allfuture);
         $currentAlreadyHighlighted = false;
@@ -170,5 +185,7 @@
                 echo $lineText;
             }
         }
-        echo "</div>";
+        echo "</p></div>";
     }
+
+    echo "</div></div></body></html>";

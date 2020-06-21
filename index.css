@@ -1,14 +1,22 @@
 html,
 body {
-    height: 100%;
-    margin: 0;
-    padding: 0
+    background-color: Gainsboro;
+    background-image: linear-gradient(to bottom right, Gainsboro, Aliceblue);
 }
 
-h4 {
-    padding-bottom: 2px;
-    margin-bottom: 2px;
-    margin-top: 10px;
+* {
+    box-sizing: border-box;
+}
+
+.column {
+    float: left;
+    width: 46%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .currentrate {
@@ -16,33 +24,24 @@ h4 {
     font-size: large;
 }
 
+.insidebox {
+    border: 3px solid black;
+    background: paleturquoise
+}
+
+.configuration {
+    background: palegoldenrod
+}
+
 div {
-    position: fixed;
-    width: 50%;
-    height: 50%;
-    overflow: scroll
+    margin: 3px;
+    margin-left: 15px;
 }
 
-#NW {
-    top: 0;
-    left: 0;
-    background: Gainsboro
+.statuses {
+    background: greenyellow
 }
 
-#NE {
-    top: 0;
-    left: 50%;
-    background: Aliceblue
-}
-
-#SW {
-    top: 50%;
-    left: 0;
-    background: Aliceblue
-}
-
-#SE {
-    top: 50%;
-    left: 50%;
-    background: Gainsboro
+.recentdailytotals {
+    background: wheat;
 }
