@@ -49,11 +49,11 @@
         $negative_GBp_format = "%.4n";
 
         // North West (Current prices)
+        echo "<div id=NW><h3>Current Prices</h3><p>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
         echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
-        echo "<div id=NW><h3>Current Prices</h3>";
         echo "<h4>Current rate (right now!)</h4>";
         $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
         $currentrate = money_format($GBp_format, $currentrate);
@@ -104,6 +104,7 @@
                 $x++;
             }
         }
+        echo "</div>";
 
         // North East corner (Most Expensive)
         echo "<div id=NE><h3>Today's most expensive times</h3><p>";
