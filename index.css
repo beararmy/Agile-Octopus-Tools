@@ -14,11 +14,8 @@ html body {
 
 .column {
     float: left;
-    width: 50%;
+    width: 46%;
 }
-
-
-/* Clear floats after the columns */
 
 .row:after {
     content: "";
@@ -31,8 +28,13 @@ html body {
     font-size: large;
 }
 
+.insidebox {
+    border: 3px solid black
+}
+
 div {
-    margin: 7px;
+    margin: 3px;
+    margin-left: 15px;
 }
 
 #NW {
