@@ -130,7 +130,7 @@
 
         // South West corner (Last n days costs.)
         echo "<div id=SW><h3>Recent daily Totals</h3>";
-        echo "<h4>Recent Days</h4>";
+        echo "<h4>Recent Days</h4><p>";
         $numberofDaysToShow = 1;
         $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
         $end_date = date("Y-m-d", time() - 86400);
@@ -141,14 +141,14 @@
             $value = money_format($GBP_format, $number);
             echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
         }
-        echo "</div>";
+        echo "</p></div>";
 
         // South East corner (Today's prices)
         $allfuture = True;
         if ($allfuture) {
-            echo "<div id=SE><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3>";
+            echo "<div id=SE><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
         } else {
-            echo "<div id=SE><h3>Upcoming prices</h3>";
+            echo "<div id=SE><h3>Upcoming prices</h3><p>";
         }
         $todaysPrices = GetTodaysRatesFromDB($allfuture);
         $currentAlreadyHighlighted = false;
@@ -170,5 +170,5 @@
                 echo $lineText;
             }
         }
-        echo "</div>";
+        echo "</p></div>";
     }
