@@ -49,19 +49,19 @@
         $negative_GBp_format = "%.4n";
 
         // Connection Statuses
-        echo "<div id=statuses><p>";
+        echo "<div id=statuses>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
-        echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
-        echo "</p> </div>";
+        echo "<p>Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b></p>";
+        echo "</div>";
 
         // North West (Current prices)
-        echo "<div id=NW><h3>Current Prices</h3><p>";
+        echo "<div id=NW><h3>Misc info</h3>";
         echo "<h4>Current rate (right now!)</h4>";
         $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
         $currentrate = money_format($GBp_format, $currentrate);
-        echo "$currentrate per kWh";
+        echo "<p>$currentrate per kWh</p>";
 
         echo "<h4>Current month</h4>";
         $start_date = date('Y-m-d', strtotime('first day of this month'));
@@ -71,7 +71,7 @@
             $date = date('M', $date);
             $number = $values['total_cost_in_GBP'];
             $value = money_format($GBP_format, $number);
-            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+            echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
         }
 
         echo "<h4>Current Year</h4>";
@@ -81,10 +81,10 @@
         foreach ($recentPrices as $date => $values) {
             $number = $values['total_cost_in_GBP'];
             $value = money_format($GBP_format, $number);
-            echo "$date - $value using $values[kWh_total_consumed] kWh<br />";
+            echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
         }
 
-        echo "<h4>Cheapest 3Hr Windows</h4>";
+        echo "<h4>Cheapest 3 Hour Windows</h4>";
         $numberofWindowsToShow = 3;
         $x = 0;
         $cheapestWindows = CalculateCheapestWindow();
@@ -103,10 +103,10 @@
                 } else {
                     $friendlyDay = "tomorrow";
                 }
-                echo "Starting $friendlyStart, ending $friendlyDay at $friendlyEnd, AvgRate $rate";
-                echo "<br>";
+                echo "<p>Starting $friendlyStart, ending $friendlyDay at $friendlyEnd, AvgRate $rate<br>";
                 $x++;
             }
+            echo "</p>";
         }
         echo "</div>";
 
