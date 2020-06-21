@@ -15,13 +15,13 @@ The bulk of this code is written as functions which can be called in either an a
 - [x] Display Current price
 - [x] Display most expensive few hours today
 - [x] Display all of todays prices
-- [ ] Display Cheapest few hours today
+- [x] Display Cheapest few hours today
 - [x] Drop prices into mysql db for later analysis
 - [x] Drop past consumption into mysql db
 - [ ] Make it an Azure Function to update DB rather than curl against a webpage
 - [ ] Email alerts for following day 'avoid at x, use lots at y'
 - [ ] Make data visible to Home Assistant to allow device scheduling
-- [ ] Some form of integration with hue, high prices = red light kinda thing.
+- [x] Some form of integration with hue, high prices = red light kinda thing.
 
 ### Prerequisites
 
