@@ -48,12 +48,16 @@
         $GBp_format = "%.2n";
         $negative_GBp_format = "%.4n";
 
-        // North West (Current prices)
-        echo "<div id=NW><h3>Current Prices</h3><p>";
+        // Connection Statuses
+        echo "<div id=statuses><p>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
         echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
+        echo "</p></div>";
+
+        // North West (Current prices)
+        echo "<div id=NW><h3>Current Prices</h3><p>";
         echo "<h4>Current rate (right now!)</h4>";
         $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
         $currentrate = money_format($GBp_format, $currentrate);
