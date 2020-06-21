@@ -53,6 +53,7 @@
 
         // Connection Statuses
         echo "<div class='insidebox statuses'>";
+        echo "<h4>Connection Statuses</h4>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
@@ -61,7 +62,11 @@
 
         // Configuration
         echo "<div class='configuration insidebox'>";
-        echo "<p>Line1\n\nLine2\n\nLine3<br>Line1\n\nLine2\n\nLine3</p>";
+        echo "<h4>Configurtion Options</h4>";
+        echo "<p>Number of days to show: xxx<br>
+        Timezone: xxx<br>
+        Something: xxx<br>
+        Something else: xxx</p>";
         echo "</div>";
 
         // North West (Current prices)
