@@ -59,6 +59,11 @@
         echo "<p>Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b></p>";
         echo "</div>";
 
+        // Configuration
+        echo "<div class='configuration insidebox'>";
+        echo "<p>Line1\n\nLine2\n\nLine3<br>Line1\n\nLine2\n\nLine3</p>";
+        echo "</div>";
+
         // North West (Current prices)
         echo "<div id=NW class=insidebox><h3>Misc info</h3>";
         echo "<h4>Current rate (right now!)</h4>";
@@ -116,7 +121,7 @@
         // South West corner (Last n days costs.)
         echo "<div id=SW class=insidebox><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
-        $numberofDaysToShow = 1;
+        $numberofDaysToShow = 2;
         $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
         $end_date = date("Y-m-d", time() - 86400);
         $recentPrices = GetTotalCost($start_date, $end_date);
@@ -131,7 +136,7 @@
         echo "</div><div class=column>";
 
         // North East corner (Most Expensive)
-        echo "<div id=NE class=insidebox><h3>Today's most expensive times</h3><p>";
+        echo "<div class='insidebox mostexpensive'><h3>Today's most expensive times</h3><p>";
         $highestrates = GetHighestRate('10');
         foreach ($highestrates as $segmentTimeStart => $rate) {
             $segmentTimeStart = strtotime($segmentTimeStart);

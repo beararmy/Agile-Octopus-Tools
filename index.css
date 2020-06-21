@@ -1,16 +1,12 @@
-html body {
+html,
+body {
     background-color: Gainsboro;
-    /* For browsers that do not support gradients */
     background-image: linear-gradient(to bottom right, Gainsboro, Aliceblue);
-    /* Standard syntax (must be last) */
 }
 
 * {
     box-sizing: border-box;
 }
-
-
-/* Create two equal columns that floats next to each other */
 
 .column {
     float: left;
@@ -31,6 +27,10 @@ html body {
 .insidebox {
     border: 3px solid black;
     background: paleturquoise
+}
+
+.configuration {
+    background: palegoldenrod
 }
 
 div {
