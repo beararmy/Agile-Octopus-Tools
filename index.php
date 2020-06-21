@@ -54,7 +54,7 @@
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
         echo "Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b>";
-        echo "</p></div>";
+        echo "</p> </div>";
 
         // North West (Current prices)
         echo "<div id=NW><h3>Current Prices</h3><p>";
