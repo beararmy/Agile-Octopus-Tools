@@ -50,6 +50,69 @@ visit index2.php for nicely visible data once enough has been pulled in to datab
 * [Apache 2.4.6](https://httpd.apache.org/download.cgi)
 * [MariaDB 5.5.60](https://mariadb.com/kb/en/mariadb-5560-release-notes/)
 
+## Function call examples
+
+```php
+// Test: function TestOctopusLogin
+$call_url = $base . $emeter . $elec_mpan . "/";
+$status_octopus = TestOctopusLogin($api_key, $call_url);
+```
+
+```php
+// Test: function TestMySQLLogin
+$status_octopus = TestMySQLLogin();
+```
+
+```php
+// Test: function GetUsage
+print("<pre>" . print_r(GetUsage(), true) . "</pre>");
+```
+
+```php
+// Test: function GetUpcomingPrices
+print("<pre>" . print_r(GetUpcomingPrices($api_key), true) . "</pre>");
+```
+
+```php
+// Test: function InsertUpcomingPrices
+$pricesArray = GetUpcomingPrices($api_key);
+InsertUpcomingPrices($pricesArray);
+```
+
+```php
+// Test: function InsertRecentUsage
+$pricesArray = GetUsage($api_key);
+InsertRecentUsage($pricesArray);
+```
+
+```php
+// Test: function GetTotalCost
+$start_date = "2020-01-03";
+$end_date = "2020-01-05";
+print("<pre>" . print_r(GetTotalCost($start_date, $end_date), true) . "</pre>");
+```
+
+```php
+// Test: function GetCurrentRate
+print("<pre>" . print_r(GetCurrentRate(), true) . "</pre>");
+echo GetCurrentRate()['current_rate_per_kWh'];
+```
+
+```php
+// Test: function GetHighestRate
+print("<pre>" . print_r(GetHighestRate('10'), true) . "</pre>");
+```
+
+```php
+// Test: function GetUpcomingPrices
+print("<pre>" . print_r(GetUpcomingPrices($api_key)['results'], true) . "</pre>");
+```
+
+```php
+// Test: function GetDaysRatesFromDB
+print("<pre>" . print_r(GetDaysRatesFromDB(), true) . "</pre>");
+```
+
 ## Contributing
 
 Pull requests and issues welcome to guide development!
