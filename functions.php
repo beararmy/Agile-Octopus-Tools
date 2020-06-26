@@ -89,6 +89,7 @@ function InsertUpcomingPrices($pricesArray)
         $from_time_php = date('Y-m-d H:i:s', strtotime($innerArray['valid_from']));
         $to_time_php = date('Y-m-d H:i:s', strtotime($innerArray['valid_to']));
         $sql = "INSERT INTO $db_tablename_9834 (valid_from, valid_to, value_exc_vat, value_inc_vat ) SELECT '$from_time_php', '$to_time_php','$innerArray[value_exc_vat]','$innerArray[value_inc_vat]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9834 WHERE valid_from='$from_time_php' AND valid_to='$to_time_php' LIMIT 1);";
+        echo $sql;
         $result = $conn->query($sql);
     }
     $conn->close();
@@ -102,6 +103,7 @@ function InsertRecentUsage($pricesArray)
         $interval_end_php = date('Y-m-d H:i:s', strtotime($innerArray['interval_end']));
         #$innerArray["interval_start"] = gmdate('c', strtotime($innerArray["interval_start"])); # Roll TZ modifier into datetime as if Zulu0
         $sql = "INSERT INTO $db_tablename_9833 (interval_start, interval_end, consumption) SELECT '$interval_start_php', '$interval_end_php','$innerArray[consumption]' FROM DUAL WHERE NOT EXISTS (SELECT * FROM $db_tablename_9833 WHERE interval_start='$interval_start_php' AND interval_end='$interval_end_php' LIMIT 1);";
+        echo $sql;
         $result = $conn->query($sql);
     }
     $conn->close();
