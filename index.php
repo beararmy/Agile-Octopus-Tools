@@ -69,11 +69,11 @@
         // Configuration
         echo "<div class='configuration insidebox'>";
         echo "<h4>Configurtion Options</h4>";
-        echo "<p>Active User: " . $_COOKIE['EL-USERNAME'] . "
-        Number of days to show: xxx<br>
-        Timezone: xxx<br>
-        Something: xxx<br>
-        Something else: xxx</p>";
+        echo "<p>Active User: " . $_COOKIE['EL-USERNAME'] . "<br>
+        Current Timezone: " . $_COOKIE['EL-TIMEZONE'] . "<br>
+        Number of recent days: " . $_COOKIE['EL-DAYSTOSHOW'] . "<br>
+        Number of 3hr Windows: " . $_COOKIE['EL-NUMBEROFWINDOWS'] . "<br>
+        </p>";
         echo "</div>";
 
         // North West (Current prices)

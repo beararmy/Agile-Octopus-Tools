@@ -19,5 +19,5 @@ if (!isset($_COOKIE[$cookie_TIMEZONE])) {
 
 if (!isset($_COOKIE[$cookie_NUMBEROFWINDOWS])) {
     $cookie_NUMBEROFWINDOWS = 3; // Number of 3hr windows to show
-    setcookie("EL-DAYSTOSHOW", $cookie_NUMBEROFWINDOWS, $cookie_end_date, "/");
+    setcookie("EL-NUMBEROFWINDOWS", $cookie_NUMBEROFWINDOWS, $cookie_end_date, "/");
 }
