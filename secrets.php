@@ -18,7 +18,7 @@ $db_tablename_7439  = "StandingCharges";
 // Octopus config
 $short_tariff_code  = "AGILE-18-02-21";
 $tariff_code        = "E-1R-AGILE-18-02-21-A";
-$api_key            = $_ENV['api_key'];
+$api_key            = $_ENV['OCOTPUS_API_KEY'];
 $elec_mpan          = $_ENV['ELEC_MPAN'];
 $elec_serial        = $_ENV['ELEC_SERIAL'];
 $agile_reset_time_utc0 = "16:00";
