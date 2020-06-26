@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html>
 
-<head>
-    <link rel="stylesheet" href="index.css">
-</head>
-
-<body>
-    <script>
-        document.onload = () => {
-            location.href = "#now"
-        };
-    </script>
 
     <?php
     require './functions.php'; // Load functions
@@ -41,6 +29,20 @@
         }
     } else {
         // This is the human-viewable site
+
+        echo '<!DOCTYPE html>
+        <html>
+        
+        <head>
+            <link rel="stylesheet" href="index.css">
+        </head>
+        
+        <body>
+            <script>
+                document.onload = () => {
+                    location.href = "#now"
+                };
+            </script>';
 
         // Set global config things
         setlocale(LC_MONETARY, 'en_GB.utf8');
@@ -189,5 +191,5 @@
             }
         }
         echo "</p></div>";
+        echo "</div></div></body></html>";
     }
-    echo "</div></div></body></html>";
