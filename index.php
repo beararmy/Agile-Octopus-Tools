@@ -3,6 +3,7 @@
     <?php
     require './functions.php'; // Load functions
     require './secrets.php';   // Load secrets
+    require './cookies.php';   // Process cookies
 
     if (isset($_GET['automated'])) {
         // This is automated, called periodically with cronjob to pull in new data
@@ -68,7 +69,8 @@
         // Configuration
         echo "<div class='configuration insidebox'>";
         echo "<h4>Configurtion Options</h4>";
-        echo "<p>Number of days to show: xxx<br>
+        echo "<p>Active User: " . $_COOKIE['EL-USERNAME'] . "
+        Number of days to show: xxx<br>
         Timezone: xxx<br>
         Something: xxx<br>
         Something else: xxx</p>";
