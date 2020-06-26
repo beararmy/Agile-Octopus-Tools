@@ -187,7 +187,7 @@
         echo "</p></div>";
     }
 
-    echo "</div>
+echo "</div>
     </div>
     </body>
     </html>";
