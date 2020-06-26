@@ -48,15 +48,18 @@
         $GBp_format = "%.2n";
         $negative_GBp_format = "%.4n";
 
-
         echo "<div class=row><div class=column>";
 
         // Connection Statuses
-        echo "<div class='insidebox statuses'>";
-        echo "<h4>Connection Statuses</h4>";
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
+        if ($status_mysql == true && $status_octopus == true) {
+            echo "<div class='insidebox statuses-healthy'>";
+        } else {
+            echo "<div class='insidebox statuses-unhealthy'>";
+        }
+        echo "<h4>Connection Statuses</h4>";
         echo "<p>Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b></p>";
         echo "</div>";
 

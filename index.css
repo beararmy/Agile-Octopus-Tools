@@ -38,8 +38,12 @@ div {
     margin-left: 15px;
 }
 
-.statuses {
+.statuses-healthy {
     background: greenyellow
+}
+
+.statuses-unhealthy {
+    background: red
 }
 
 .recentdailytotals {
