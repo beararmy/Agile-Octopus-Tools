@@ -36,7 +36,6 @@
             $date = date("Y-m-d");
             $pricesArray = GetStandingCharge();
             InsertStandingCharge($pricesArray, $date);
-            echo phpinfo();  # Working on github/#25
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -188,5 +187,4 @@
         }
         echo "</p></div>";
     }
-    echo phpinfo();  # Working on github/#25
     echo "</div></div></body></html>";
