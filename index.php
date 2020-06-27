@@ -1,5 +1,3 @@
-
-
     <?php
     require './functions.php'; // Load functions
     require './secrets.php';   // Load secrets
@@ -30,14 +28,11 @@
         }
     } else {
         // This is the human-viewable site
-
         echo '<!DOCTYPE html>
         <html>
-        
         <head>
             <link rel="stylesheet" href="index.css">
         </head>
-        
         <body>
             <script>
                 document.onload = () => {
@@ -68,7 +63,7 @@
 
         // Configuration
         echo "<div class='configuration insidebox'>";
-        echo "<h4>Configurtion Options</h4>";
+        echo "<h4>Configurtion Options <a href=cookies.php><small>Change cookied settings</small></a></h4>";
         echo "<p>Active User: " . $_COOKIE['EL-USERNAME'] . "<br>
         Current Timezone: " . $_COOKIE['EL-TIMEZONE'] . "<br>
         Number of recent days: " . $_COOKIE['EL-DAYSTOSHOW'] . "<br>
@@ -133,7 +128,7 @@
         // South West corner (Last n days costs.)
         echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
-        $numberofDaysToShow = 2;
+        $numberofDaysToShow = $_COOKIE['EL-DAYSTOSHOW'];
         $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
         $end_date = date("Y-m-d", time() - 86400);
         $recentPrices = GetTotalCost($start_date, $end_date);
