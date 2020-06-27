@@ -2,7 +2,6 @@
 
 if (isset($_GET['submit'])) {
     echo phpinfo();
-    break;
 }
 
 if (!isset($_COOKIE['ELUSERNAME'])) {
