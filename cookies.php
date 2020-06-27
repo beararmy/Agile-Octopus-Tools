@@ -1,5 +1,10 @@
 <?php
 
+if (isset($_GET['submit'])) {
+    echo phpinfo();
+    break;
+}
+
 if (!isset($_COOKIE['ELUSERNAME'])) {
     $cookie_ELUSERNAME = "CHANGEME";
 } else {
@@ -24,7 +29,7 @@ if (!isset($_COOKIE['ELNUMBEROFWINDOWS'])) {
     $cookie_ELNUMBEROFWINDOWS = $_COOKIE['ELNUMBEROFWINDOWS'];
 }
 
-echo "<form>";
+echo "<form action='cookies.php?submit'>";
 
 echo "<label for='username'>Username:</label><br>
 <input type='text' id='username' name='username' value=$cookie_ELUSERNAME><br>
