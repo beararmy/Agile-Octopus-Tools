@@ -64,10 +64,10 @@
         // Configuration
         echo "<div class='configuration insidebox'>";
         echo "<h4>Configurtion Options <a href=cookies.php><small>Change cookied settings</small></a></h4>";
-        echo "<p>Active User: " . $_COOKIE['EL-USERNAME'] . "<br>
-        Current Timezone: " . $_COOKIE['EL-TIMEZONE'] . "<br>
-        Number of recent days: " . $_COOKIE['EL-DAYSTOSHOW'] . "<br>
-        Number of 3hr Windows: " . $_COOKIE['EL-NUMBEROFWINDOWS'] . "<br>
+        echo "<p>Active User: " . $_COOKIE['ELUSERNAME'] . "<br>
+        Current Timezone: " . $_COOKIE['ELTIMEZONE'] . "<br>
+        Number of recent days: " . $_COOKIE['ELDAYSTOSHOW'] . "<br>
+        Number of 3hr Windows: " . $_COOKIE['ELNUMBEROFWINDOWS'] . "<br>
         </p>";
         echo "</div>";
 
@@ -103,7 +103,7 @@
         $x = 0;
         $cheapestWindows = CalculateCheapestWindow();
         foreach ($cheapestWindows as $segmentTimeEnd => $rate) {
-            if ($rate && $x < $$_COOKIE['EL-NUMBEROFWINDOWS']) {
+            if ($rate && $x < $_COOKIE['ELNUMBEROFWINDOWS']) {
                 $rate = $rate / 100;
                 if ($rate <= 0) {
                     $rate = money_format($negative_GBp_format, $rate);
@@ -127,7 +127,7 @@
         // South West corner (Last n days costs.)
         echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
-        $numberofDaysToShow = $_COOKIE['EL-DAYSTOSHOW'];
+        $numberofDaysToShow = $_COOKIE['ELDAYSTOSHOW'];
         $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
         $end_date = date("Y-m-d", time() - 86400);
         $recentPrices = GetTotalCost($start_date, $end_date);
