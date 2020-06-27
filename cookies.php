@@ -29,7 +29,7 @@ if (!isset($_COOKIE['ELNUMBEROFWINDOWS'])) {
     $cookie_ELNUMBEROFWINDOWS = $_COOKIE['ELNUMBEROFWINDOWS'];
 }
 
-echo "<form action='cookies.php?submit'>";
+echo "<form action='cookies.php?submit=yes'>";
 
 echo "<label for='username'>Username:</label><br>
 <input type='text' id='username' name='username' value=$cookie_ELUSERNAME><br>
