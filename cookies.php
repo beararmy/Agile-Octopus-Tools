@@ -1,8 +1,14 @@
 <?php
 
-if (isset($_GET['submit'])) {
+if (isset($_POST['submit'])) {
     echo phpinfo();
+    $cookie_end_date = 2147471999; // one second before 32bit epoch dies ;.;
+    setcookie("ELUSERNAME", $_POST['ELUSERNAME'], $cookie_end_date, "/");
+    setcookie("ELDAYSTOSHOW", $_POST['ELDAYSTOSHOW'], $cookie_end_date, "/");
+    setcookie("ELTIMEZONE", $_POST['ELTIMEZONE'], $cookie_end_date, "/");
+    setcookie("ELNUMBEROFWINDOWS", $_POST['ELNUMBEROFWINDOWS'], $cookie_end_date, "/");
 }
+
 
 if (!isset($_COOKIE['ELUSERNAME'])) {
     $cookie_ELUSERNAME = "CHANGEME";
@@ -28,7 +34,7 @@ if (!isset($_COOKIE['ELNUMBEROFWINDOWS'])) {
     $cookie_ELNUMBEROFWINDOWS = $_COOKIE['ELNUMBEROFWINDOWS'];
 }
 
-echo "<form action='cookies.php?submit=yes'>";
+echo "<form action='cookies.php?submit=yes' method=post>";
 
 echo "<label for='username'>Username:</label><br>
 <input type='text' id='username' name='username' value=$cookie_ELUSERNAME><br>
