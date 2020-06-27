@@ -100,11 +100,10 @@
         }
 
         echo "<h4>Cheapest 3 Hour Windows</h4>";
-        $numberofWindowsToShow = 3;
         $x = 0;
         $cheapestWindows = CalculateCheapestWindow();
         foreach ($cheapestWindows as $segmentTimeEnd => $rate) {
-            if ($rate && $x < $numberofWindowsToShow) {
+            if ($rate && $x < $$_COOKIE['EL-NUMBEROFWINDOWS']) {
                 $rate = $rate / 100;
                 if ($rate <= 0) {
                     $rate = money_format($negative_GBp_format, $rate);
