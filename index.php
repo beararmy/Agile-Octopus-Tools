@@ -1,7 +1,7 @@
     <?php
     require './functions.php'; // Load functions
     require './secrets.php';   // Load secrets
-    require './cookies.php';   // Process cookies
+    // require './cookies.php';   // Process cookies
 
     if (isset($_GET['automated'])) {
         // This is automated, called periodically with cronjob to pull in new data
