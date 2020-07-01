@@ -61,10 +61,22 @@
         echo "<p>Statuses: Octopus is <b>$status_octopus</b>, MySQL is <b>$status_mysql</b></p>";
         echo "</div>";
 
+        function cookieChecker($cookiename)
+        {
+            if (!isset($_COOKIE[$cookiename])) {
+                $output = "NOT SET YET";
+            } else {
+                $output = $_COOKIE[$cookiename];
+            }
+            return $output;
+        }
+
+        $username = cookieChecker($ELUSERNAME);
+
         // Configuration
         echo "<div class='configuration insidebox'>";
         echo "<h4>Configurtion Options <a href=cookies.php><small>Change cookied settings</small></a></h4>";
-        echo "<p>Active User: " . $_COOKIE['ELUSERNAME'] . "<br>
+        echo "<p>Active User: " . $username . "<br>
         Current Timezone: " . $_COOKIE['ELTIMEZONE'] . "<br>
         Number of recent days: " . $_COOKIE['ELDAYSTOSHOW'] . "<br>
         Number of 3hr Windows: " . $_COOKIE['ELNUMBEROFWINDOWS'] . "<br>
