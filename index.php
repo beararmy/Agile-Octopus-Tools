@@ -1,8 +1,7 @@
-
-
     <?php
     require './functions.php'; // Load functions
     require './secrets.php';   // Load secrets
+    // require './cookies.php';   // Process cookies
 
     if (isset($_GET['automated'])) {
         // This is automated, called periodically with cronjob to pull in new data
@@ -29,14 +28,11 @@
         }
     } else {
         // This is the human-viewable site
-
         echo '<!DOCTYPE html>
         <html>
-        
         <head>
             <link rel="stylesheet" href="index.css">
         </head>
-        
         <body>
             <script>
                 document.onload = () => {
@@ -66,12 +62,18 @@
         echo "</div>";
 
         // Configuration
+        $username = cookieChecker("ELUSERNAME");
+        $userlocaltimezone = cookieChecker("ELTIMEZONE");
+        $days_to_show = cookieChecker("ELDAYSTOSHOW");
+        $qty_3hr_windows = cookieChecker("ELNUMBEROFWINDOWS");
+
         echo "<div class='configuration insidebox'>";
-        echo "<h4>Configurtion Options</h4>";
-        echo "<p>Number of days to show: xxx<br>
-        Timezone: xxx<br>
-        Something: xxx<br>
-        Something else: xxx</p>";
+        echo "<h4>Configurtion Options <a href=cookies.php><small>Change cookied settings</small></a></h4>";
+        echo "<p>Active User: $username <br>
+        Current Timezone: $userlocaltimezone <br>
+        Number of recent days: $days_to_show <br>
+        Number of 3hr Windows: $qty_3hr_windows <br>
+        </p>";
         echo "</div>";
 
         // North West (Current prices)
@@ -103,11 +105,10 @@
         }
 
         echo "<h4>Cheapest 3 Hour Windows</h4>";
-        $numberofWindowsToShow = 3;
         $x = 0;
         $cheapestWindows = CalculateCheapestWindow();
         foreach ($cheapestWindows as $segmentTimeEnd => $rate) {
-            if ($rate && $x < $numberofWindowsToShow) {
+            if ($rate && $x < $qty_3hr_windows) {
                 $rate = $rate / 100;
                 if ($rate <= 0) {
                     $rate = money_format($negative_GBp_format, $rate);
@@ -131,8 +132,7 @@
         // South West corner (Last n days costs.)
         echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
-        $numberofDaysToShow = 2;
-        $start_date = date("Y-m-d", time() - ($numberofDaysToShow * 86400));
+        $start_date = date("Y-m-d", time() - (($days_to_show + 1) * 86400));
         $end_date = date("Y-m-d", time() - 86400);
         $recentPrices = GetTotalCost($start_date, $end_date);
         $recentPrices = array_reverse($recentPrices);
