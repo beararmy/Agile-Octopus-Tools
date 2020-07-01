@@ -1,12 +1,11 @@
 <?php
-echo phpinfo();
+
 if ($_GET['submit'] == "yes") {
-    echo phpinfo();
     $cookie_end_date = 2147471999; // one second before 32bit epoch dies ;.;
-    setcookie("ELUSERNAME", $_POST['ELUSERNAME'], $cookie_end_date, "/");
-    setcookie("ELDAYSTOSHOW", $_POST['ELDAYSTOSHOW'], $cookie_end_date, "/");
-    setcookie("ELTIMEZONE", $_POST['ELTIMEZONE'], $cookie_end_date, "/");
-    setcookie("ELNUMBEROFWINDOWS", $_POST['ELNUMBEROFWINDOWS'], $cookie_end_date, "/");
+    setcookie("ELUSERNAME", $_POST['username'], $cookie_end_date, "/");
+    setcookie("ELDAYSTOSHOW", $_POST['daystoshow'], $cookie_end_date, "/");
+    setcookie("ELTIMEZONE", $_POST['timezone'], $cookie_end_date, "/");
+    setcookie("ELNUMBEROFWINDOWS", $_POST['numberofwindows'], $cookie_end_date, "/");
 }
 
 
