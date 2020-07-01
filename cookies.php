@@ -1,6 +1,6 @@
 <?php
 echo phpinfo();
-if (isset($_POST['submit'])) {
+if ($_GET['submit'] == "yes") {
     echo phpinfo();
     $cookie_end_date = 2147471999; // one second before 32bit epoch dies ;.;
     setcookie("ELUSERNAME", $_POST['ELUSERNAME'], $cookie_end_date, "/");
