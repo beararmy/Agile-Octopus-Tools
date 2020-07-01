@@ -1,5 +1,5 @@
 <?php
-
+echo phpinfo();
 if (isset($_POST['submit'])) {
     echo phpinfo();
     $cookie_end_date = 2147471999; // one second before 32bit epoch dies ;.;
