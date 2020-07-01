@@ -71,7 +71,7 @@
             return $output;
         }
 
-        $username = cookieChecker($ELUSERNAME);
+        $username = cookieChecker("ELUSERNAME");
 
         // Configuration
         echo "<div class='configuration insidebox'>";
