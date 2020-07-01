@@ -6,6 +6,7 @@ if ($_GET['submit'] == "yes") {
     setcookie("ELDAYSTOSHOW", $_POST['daystoshow'], $cookie_end_date, "/");
     setcookie("ELTIMEZONE", $_POST['timezone'], $cookie_end_date, "/");
     setcookie("ELNUMBEROFWINDOWS", $_POST['numberofwindows'], $cookie_end_date, "/");
+    header('Location: index.php');
 }
 
 
