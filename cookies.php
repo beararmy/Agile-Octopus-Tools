@@ -6,6 +6,7 @@ if ($_GET['submit'] == "yes") {
     setcookie("ELDAYSTOSHOW", $_POST['daystoshow'], $cookie_end_date, "/");
     setcookie("ELTIMEZONE", $_POST['timezone'], $cookie_end_date, "/");
     setcookie("ELNUMBEROFWINDOWS", $_POST['numberofwindows'], $cookie_end_date, "/");
+    setcookie("SHOWALLFUTUREPRICES", $_POST['showalltimes'], $cookie_end_date, "/");
     header('Location: index.php');
 }
 
@@ -33,9 +34,17 @@ if (!isset($_COOKIE['ELNUMBEROFWINDOWS'])) {
     $cookie_ELNUMBEROFWINDOWS = $_COOKIE['ELNUMBEROFWINDOWS'];
 }
 
+if (!isset($_COOKIE['SHOWALLFUTUREPRICES'])) {
+    $cookie_SHOWALLFUTUREPRICES = "False";
+} else {
+    $cookie_SHOWALLFUTUREPRICES = $_COOKIE['SHOWALLFUTUREPRICES'];
+}
+
 echo "<form action='cookies.php?submit=yes' method=post>";
 echo "<label for='username'>Username:</label><br>
 <input type='text' id='username' name='username' value=$cookie_ELUSERNAME><br>
+<label for='showalltimes'>Show even past times for today (True/False)</label><br>
+<input type='text' id='showalltimes' name='showalltimes' value=$cookie_SHOWALLFUTUREPRICES><br>
 <label for='daystoshow'>Days to show:</label><br>
 <input type='text' id='daystoshow' name='daystoshow' value=$cookie_ELDAYSTOSHOW><br>
 <label for='timezone'>Timezone:</label><br>

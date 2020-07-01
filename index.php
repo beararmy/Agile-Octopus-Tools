@@ -66,6 +66,7 @@
         $userlocaltimezone = cookieChecker("ELTIMEZONE");
         $days_to_show = cookieChecker("ELDAYSTOSHOW");
         $qty_3hr_windows = cookieChecker("ELNUMBEROFWINDOWS");
+        $show_all_todays_times = cookieChecker("SHOWALLFUTUREPRICES");
 
         echo "<div class='configuration insidebox'>";
         echo "<h4>Configurtion Options <a href=cookies.php><small>Change cookied settings</small></a></h4>";
@@ -164,13 +165,12 @@
         echo "</p></div>";
 
         // South East corner (Today's prices)
-        $allfuture = True;
-        if ($allfuture) {
+        if ($show_all_todays_times) {
             echo "<div id=SE class=insidebox><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
         } else {
             echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         }
-        $todaysPrices = GetTodaysRatesFromDB($allfuture);
+        $todaysPrices = GetTodaysRatesFromDB($show_all_todays_times);
         $currentAlreadyHighlighted = false;
         foreach ($todaysPrices as $segmentTimeStart => $rate) {
             $segmentTimeStart = strtotime($segmentTimeStart);
