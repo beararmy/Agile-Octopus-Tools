@@ -239,3 +239,12 @@ function CalculateCheapestWindow()
     $conn->close();
     return $data['results'];
 }
+function cookieChecker($cookiename)
+{
+    if (!isset($_COOKIE[$cookiename])) {
+        $output = "NOT SET YET";
+    } else {
+        $output = $_COOKIE[$cookiename];
+    }
+    return $output;
+}
