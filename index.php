@@ -132,7 +132,7 @@
         // South West corner (Last n days costs.)
         echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
-        $start_date = date("Y-m-d", time() - ($days_to_show * 86400));
+        $start_date = date("Y-m-d", time() - (($days_to_show + 1) * 86400));
         $end_date = date("Y-m-d", time() - 86400);
         $recentPrices = GetTotalCost($start_date, $end_date);
         $recentPrices = array_reverse($recentPrices);
