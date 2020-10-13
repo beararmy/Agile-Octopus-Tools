@@ -208,7 +208,7 @@ function GetTodaysRatesFromDB($show_future_only)
     date_default_timezone_set('UTC');
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
     if ($show_future_only) {
-        $date = date("Y-m-d H:i:s");
+        $date = date("Y-m-d H:i:s", strtotime("-30 minutes"));
         $sql = "SELECT * FROM $db_tablename_9834 WHERE valid_from >= '$date' ORDER BY valid_from;";
     } else {
         $date = date("Y-m-d");
