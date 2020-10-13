@@ -66,7 +66,7 @@
         $userlocaltimezone = cookieChecker("ELTIMEZONE");
         $days_to_show = cookieChecker("ELDAYSTOSHOW");
         $qty_3hr_windows = cookieChecker("ELNUMBEROFWINDOWS");
-        $show_all_todays_times = cookieChecker("SHOWALLFUTUREPRICES");
+        $show_future_only = cookieChecker("SHOWALLFUTUREPRICES");
 
         echo "<div class='configuration insidebox'>";
         echo "<h4>Configurtion Options <a href=cookies.php><small>Change cookied settings</small></a></h4>";
@@ -167,12 +167,12 @@
         echo "</p></div>";
 
         // Today's prices
-        if ($show_all_todays_times) {
+        if ($show_future_only) {
             echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         } else {
-            echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
+            echo "<div id=SE class=insidebox><h3>All current prices</h3><p>";
         }
-        $todaysPrices = GetTodaysRatesFromDB($show_all_todays_times);
+        $todaysPrices = GetTodaysRatesFromDB($show_future_only);
         $currentAlreadyHighlighted = false;
         foreach ($todaysPrices as $segmentTimeStart => $rate) {
             $segmentTimeStart = strtotime($segmentTimeStart);
