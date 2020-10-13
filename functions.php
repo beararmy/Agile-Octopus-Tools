@@ -216,7 +216,7 @@ function GetTodaysRatesFromDB($show_future_only)
     }
     debug_to_console("For The sake of debug I ran:");
     debug_to_console($date);
-    debug_to_console($sql);
+    debug_to_console("show_future_only was set to $show_future_only");
 
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
