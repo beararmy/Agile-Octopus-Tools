@@ -46,7 +46,7 @@ function GetUsage()
 {
     require './secrets.php';
     $api_key = $api_key . ":";
-    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/?page_size=" . $number_results_consumption;
+    $url = $base . $emeter . $elec_mpan . "/meters/" . $elec_serial . "/consumption/?page_size=" . $number_qry_results;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, "$api_key");
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
@@ -60,7 +60,7 @@ function GetUpcomingPrices()
 {
     require './secrets.php';
     $api_key = $api_key . ":";
-    $url = $base . $upcomingagilerate;
+    $url = $base . $upcomingagilerate + "?page_size=" . $number_qry_results;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, $api_key);
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
