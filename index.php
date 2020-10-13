@@ -77,7 +77,7 @@
         </p>";
         echo "</div>";
 
-        // North West (Current prices)
+        // Current prices
         echo "<div id=NW class=insidebox><h3>Misc info</h3>";
         echo "<h4>Current rate (right now!)</h4>";
         $currentrate = GetCurrentRate()['current_rate_per_kWh'] / 100;
@@ -132,7 +132,7 @@
         }
         echo "</div>";
 
-        // South West corner (Last n days costs.)
+        // Last n days costs
         echo "<div class='insidebox recentdailytotals'><h3>Recent daily Totals</h3>";
         echo "<h4>Recent Days</h4><p>";
         $start_date = date("Y-m-d", time() - (($days_to_show + 1) * 86400));
@@ -148,7 +148,7 @@
 
         echo "</div><div class=column>";
 
-        // North East corner (Most Expensive)
+        // Most Expensive
         echo "<div class='insidebox mostexpensive'><h3>Today's most expensive times</h3><p>";
         $highestrates = GetHighestRate('10');
         foreach ($highestrates as $segmentTimeStart => $rate) {
@@ -166,7 +166,7 @@
         }
         echo "</p></div>";
 
-        // South East corner (Today's prices)
+        // Today's prices
         if ($show_all_todays_times) {
             echo "<div id=SE class=insidebox><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
         } else {
