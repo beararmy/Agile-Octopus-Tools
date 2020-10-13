@@ -167,8 +167,6 @@
         echo "</p></div>";
 
         // Today's prices
-        echo $show_future_only;
-        echo gettype($show_future_only), "\n";
         if ($show_future_only) {
             echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         } else {
