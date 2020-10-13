@@ -60,7 +60,7 @@ function GetUpcomingPrices()
 {
     require './secrets.php';
     $api_key = $api_key . ":";
-    $url = $base . $upcomingagilerate + "?page_size=" . $number_qry_results;
+    $url = $base . $upcomingagilerate . "?page_size=" . $number_qry_results;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_USERPWD, $api_key);
     curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
