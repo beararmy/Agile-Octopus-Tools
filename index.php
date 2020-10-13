@@ -168,7 +168,7 @@
 
         // Today's prices
         if ($show_all_todays_times) {
-            echo "<div id=SE class=insidebox><h3>Upcoming prices <small>(Tomorrow as of 1600 GMT)</small></h3><p>";
+            echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         } else {
             echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         }
