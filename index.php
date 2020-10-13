@@ -167,7 +167,7 @@
         echo "</p></div>";
 
         // Today's prices
-        if ($show_future_only) {
+        if ($show_future_only == true) {
             echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         } else {
             echo "<div id=SE class=insidebox><h3>All current prices</h3><p>";
