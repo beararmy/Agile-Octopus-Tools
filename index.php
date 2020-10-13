@@ -84,16 +84,19 @@
         $currentrate = money_format($GBp_format, $currentrate);
         echo "<p>$currentrate per kWh</p>";
 
+        echo "<s>";
         echo "<h4>Current month</h4>";
-        $start_date = date('Y-m-d', strtotime('first day of this month'));
-        $end_date = date('Y-m-d', strtotime('last day of this month'));
-        $recentPrices = GetTotalCostAsSummary($start_date, $end_date);
-        foreach ($recentPrices as $date => $values) {
-            $date = date('M', $date);
-            $number = $values['total_cost_in_GBP'];
-            $value = money_format($GBP_format, $number);
-            echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
-        }
+        // $start_date = date('Y-m-d', strtotime('first day of this month'));
+        // $end_date = date('Y-m-d', strtotime('last day of this month'));
+        // $recentPrices = GetTotalCostAsSummary($start_date, $end_date);
+        // foreach ($recentPrices as $date => $values) {
+        //     $date = date('M', $date);
+        //     $number = $values['total_cost_in_GBP'];
+        //     $value = money_format($GBP_format, $number);
+        //     echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
+        // }
+        echo "</s>";
+
 
         echo "<s>";
         echo "<h4>Current Year</h4>";
