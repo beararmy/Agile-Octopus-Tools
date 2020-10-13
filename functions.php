@@ -247,5 +247,8 @@ function cookieChecker($cookiename)
     } else {
         $output = $_COOKIE[$cookiename];
     }
+    if ($output == "True" || "False") {
+        $output = (bool) $output;
+    }
     return $output;
 }
