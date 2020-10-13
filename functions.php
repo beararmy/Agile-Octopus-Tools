@@ -135,7 +135,7 @@ function GetTotalCost($start_date, $end_date)
     require './secrets.php';
     date_default_timezone_set('UTC');
     $conn = new mysqli($db_servername_8459, $db_username_2734, $db_password_1924, $db_name_9781) or die("Unable to Connect");
-    $sql = "SELECT DATE_FORMAT(interval_start, '%Y-%m-%d') date, SUM(c.consumption * p.value_inc_vat) kWh_cost_GBP, SUM(c.consumption) total_kWh, (SELECT value_inc_vat FROM StandingCharges WHERE date = '$start_date' LIMIT 1) standing_charge FROM ElectricConsumption c RIGHT JOIN ElectricPrices p on p.valid_from = c.interval_start WHERE interval_start >= '$start_date 00:00:00' AND interval_start < '$end_date 23:45:00' GROUP BY date;";
+    $sql = "SELECT DATE_FORMAT(interval_start, '%Y-%m-%d') date, SUM(c.consumption * p.value_inc_vat) kWh_cost_GBP, SUM(c.consumption) total_kWh, (SELECT value_inc_vat FROM StandingCharges WHERE date = '$start_date' LIMIT 1) standing_charge FROM ElectricConsumption c RIGHT JOIN ElectricPrices p on p.valid_from = c.interval_start WHERE interval_start >= '$start_date 00:00:00' AND interval_start < '$end_date 23:45:00' GROUP BY date ORDER BY date;";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
