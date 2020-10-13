@@ -214,6 +214,9 @@ function GetTodaysRatesFromDB($show_future_only)
         $date = date("Y-m-d");
         $sql = "SELECT * FROM $db_tablename_9834 WHERE valid_from >= '$date 00:00:00' AND valid_from <= '$date 23:59:00' ORDER BY valid_from;";
     }
+    debug_to_console("For The sake of debug I ran:");
+    debug_to_console("$date");
+    debug_to_console("$sql");
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -253,4 +256,13 @@ function cookieChecker($cookiename)
         (bool)$output = False;
     }
     return $output;
+}
+
+function debug_to_console($data)
+{
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
