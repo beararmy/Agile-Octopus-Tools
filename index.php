@@ -95,15 +95,17 @@
             echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
         }
 
+        echo "<s>";
         echo "<h4>Current Year</h4>";
-        $start_date = date('Y-m-d', strtotime('Jan 1'));
-        $end_date = date('Y-m-d', strtotime('Dec 31'));
-        $recentPrices = GetTotalCostAsSummary($start_date, $end_date);
-        foreach ($recentPrices as $date => $values) {
-            $number = $values['total_cost_in_GBP'];
-            $value = money_format($GBP_format, $number);
-            echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
-        }
+        // $start_date = date('Y-m-d', strtotime('Jan 1'));
+        // $end_date = date('Y-m-d', strtotime('Dec 31'));
+        // $recentPrices = GetTotalCostAsSummary($start_date, $end_date);
+        // foreach ($recentPrices as $date => $values) {
+        //     $number = $values['total_cost_in_GBP'];
+        //     $value = money_format($GBP_format, $number);
+        //     echo "<p>$date - $value using $values[kWh_total_consumed] kWh</p>";
+        // }
+        echo "</s>";
 
         echo "<h4>Cheapest 3 Hour Windows</h4>";
         $x = 0;
