@@ -170,7 +170,7 @@
         if ($show_future_only) {
             echo "<div id=SE class=insidebox><h3>Upcoming prices</h3><p>";
         } else {
-            echo "<div id=SE class=insidebox><h3>All current prices</h3><p>";
+            echo "<div id=SE class=insidebox><h3>Prices for today</h3><p>";
         }
         $todaysPrices = GetTodaysRatesFromDB($show_future_only);
         $currentAlreadyHighlighted = false;

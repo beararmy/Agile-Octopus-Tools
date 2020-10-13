@@ -43,7 +43,7 @@ if (!isset($_COOKIE['SHOWALLFUTUREPRICES'])) {
 echo "<form action='cookies.php?submit=yes' method=post>";
 echo "<label for='username'>Username:</label><br>
 <input type='text' id='username' name='username' value=$cookie_ELUSERNAME><br>
-<label for='showalltimes'>Show even past times for today (True/False)</label><br>
+<label for='showalltimes'>Show all future prices (True/False)</label><br>
 <input type='text' id='showalltimes' name='showalltimes' value=$cookie_SHOWALLFUTUREPRICES><br>
 <label for='daystoshow'>Days to show:</label><br>
 <input type='text' id='daystoshow' name='daystoshow' value=$cookie_ELDAYSTOSHOW><br>
