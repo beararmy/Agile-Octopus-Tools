@@ -54,6 +54,7 @@
         $secondsLeft = $housePurchase - time();
         $days = floor($secondsLeft / (60 * 60 * 24));
         $hours = floor(($secondsLeft / (60 * 60)) - ($days * 24));
+        echo "<div class='insidebox'>";
         echo "<h4>Countdown:</h4>";
         echo "<p><b><big>$days</big></b> Days, <b><big>$hours</big></b> hours left!</p>";
         echo "</div>";
