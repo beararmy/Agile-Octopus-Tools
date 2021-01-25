@@ -108,7 +108,6 @@
         // }
         echo "</s>";
 
-
         echo "<s>";
         echo "<h4>Current Year</h4>";
         // $start_date = date('Y-m-d', strtotime('Jan 1'));
