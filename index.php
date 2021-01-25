@@ -32,6 +32,7 @@
         <html>
         <head>
             <link rel="stylesheet" href="index.css">
+            <meta http-equiv="refresh" content="15" > 
         </head>
         <body>
             <script>
