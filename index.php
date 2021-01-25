@@ -49,7 +49,16 @@
 
         echo "<div class=row><div class=column>";
 
-        // Connection Statuses
+        // House countdown
+        $housePurchase = strtotime("2021-02-22 12:00:00");
+        $secondsLeft = $housePurchase - time();
+        $days = floor($secondsLeft / (60 * 60 * 24));
+        $hours = floor(($secondsLeft / (60 * 60)) - ($days * 24));
+        echo "<h4>Countdown:</h4>";
+        echo "<p><b><big>$days</big></b> Days, <b><big>$hours</big></b> hours left!</p>";
+        echo "</div>";
+
+        // Connection Statuses  
         $call_url = $base . $emeter . $elec_mpan . "/";
         $status_octopus = TestOctopusLogin($api_key, $call_url);
         $status_mysql = TestMySQLLogin();
