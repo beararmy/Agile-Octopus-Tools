@@ -17,7 +17,7 @@ $db_tablename_7439  = "StandingCharges";
 
 // Octopus config
 $short_tariff_code  = "AGILE-18-02-21";
-$tariff_code        = "E-1R-AGILE-18-02-21-A";
+$tariff_code        = $_ENV['DNO_GSP_ID'];
 $api_key            = $_ENV['OCOTPUS_API_KEY'];
 $elec_mpan          = $_ENV['ELEC_MPAN'];
 $elec_serial        = $_ENV['ELEC_SERIAL'];
@@ -27,7 +27,8 @@ $agile_reset_time_utc0 = "16:00";
 $base = "https://api.octopus.energy/v1/";
 $products = "products/";
 $emeter = "electricity-meter-points/";
-$upcomingagilerate = "products/AGILE-18-02-21/electricity-tariffs/E-1R-AGILE-18-02-21-A/standard-unit-rates/";
+$upcomingagilerate = "products/" .$short_tariff_code. "/electricity-tariffs/E-1R-AGILE-18-02-21-" .$tariff_code. "/standard-unit-rates/";
+#TODO: this string gets built to use in one function, seems a waste
 
 // Site config
 $number_qry_results = $_ENV['NUMBER_QRY_RESULTS'];
